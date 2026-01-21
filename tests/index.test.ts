@@ -322,13 +322,13 @@ describe('instantiate client', () => {
     test('empty env variable', () => {
       process.env['RAILS_BASE_URL'] = ''; // empty
       const client = new Rails({ apiKey: 'My API Key' });
-      expect(client.baseURL).toEqual('https://petstore3.swagger.io/api/v3');
+      expect(client.baseURL).toEqual('https://api.rails.com');
     });
 
     test('blank env variable', () => {
       process.env['RAILS_BASE_URL'] = '  '; // blank
       const client = new Rails({ apiKey: 'My API Key' });
-      expect(client.baseURL).toEqual('https://petstore3.swagger.io/api/v3');
+      expect(client.baseURL).toEqual('https://api.rails.com');
     });
 
     test('in request options', () => {

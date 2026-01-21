@@ -29,9 +29,15 @@ const client = new Rails({
   apiKey: process.env['RAILS_API_KEY'], // This is the default and can be omitted
 });
 
-const pet = await client.pet.update({ name: 'doggie', photoUrls: ['string'] });
+const user = await client.users.create({
+  email: 'dev@stainless.com',
+  first_name: 'first_name',
+  last_name: 'last_name',
+  password: 'password',
+  'X-Environment': 'sandbox',
+});
 
-console.log(pet.id);
+console.log(user.user_id);
 ```
 
 ### Request & Response types
@@ -46,8 +52,14 @@ const client = new Rails({
   apiKey: process.env['RAILS_API_KEY'], // This is the default and can be omitted
 });
 
-const params: Rails.PetUpdateParams = { name: 'doggie', photoUrls: ['string'] };
-const pet: Rails.Pet = await client.pet.update(params);
+const params: Rails.UserCreateParams = {
+  email: 'dev@stainless.com',
+  first_name: 'first_name',
+  last_name: 'last_name',
+  password: 'password',
+  'X-Environment': 'sandbox',
+};
+const user: Rails.UserCreateResponse = await client.users.create(params);
 ```
 
 Documentation for each method, request param, and response field are available in docstrings and will appear on hover in most modern editors.
@@ -60,8 +72,14 @@ a subclass of `APIError` will be thrown:
 
 <!-- prettier-ignore -->
 ```ts
-const pet = await client.pet
-  .update({ name: 'doggie', photoUrls: ['string'] })
+const user = await client.users
+  .create({
+    email: 'dev@stainless.com',
+    first_name: 'first_name',
+    last_name: 'last_name',
+    password: 'password',
+    'X-Environment': 'sandbox',
+  })
   .catch(async (err) => {
     if (err instanceof Rails.APIError) {
       console.log(err.status); // 400
@@ -102,7 +120,13 @@ const client = new Rails({
 });
 
 // Or, configure per-request:
-await client.pet.update({ name: 'doggie', photoUrls: ['string'] }, {
+await client.users.create({
+  email: 'dev@stainless.com',
+  first_name: 'first_name',
+  last_name: 'last_name',
+  password: 'password',
+  'X-Environment': 'sandbox',
+}, {
   maxRetries: 5,
 });
 ```
@@ -119,7 +143,13 @@ const client = new Rails({
 });
 
 // Override per-request:
-await client.pet.update({ name: 'doggie', photoUrls: ['string'] }, {
+await client.users.create({
+  email: 'dev@stainless.com',
+  first_name: 'first_name',
+  last_name: 'last_name',
+  password: 'password',
+  'X-Environment': 'sandbox',
+}, {
   timeout: 5 * 1000,
 });
 ```
@@ -142,15 +172,29 @@ Unlike `.asResponse()` this method consumes the body, returning once it is parse
 ```ts
 const client = new Rails();
 
-const response = await client.pet.update({ name: 'doggie', photoUrls: ['string'] }).asResponse();
+const response = await client.users
+  .create({
+    email: 'dev@stainless.com',
+    first_name: 'first_name',
+    last_name: 'last_name',
+    password: 'password',
+    'X-Environment': 'sandbox',
+  })
+  .asResponse();
 console.log(response.headers.get('X-My-Header'));
 console.log(response.statusText); // access the underlying Response object
 
-const { data: pet, response: raw } = await client.pet
-  .update({ name: 'doggie', photoUrls: ['string'] })
+const { data: user, response: raw } = await client.users
+  .create({
+    email: 'dev@stainless.com',
+    first_name: 'first_name',
+    last_name: 'last_name',
+    password: 'password',
+    'X-Environment': 'sandbox',
+  })
   .withResponse();
 console.log(raw.headers.get('X-My-Header'));
-console.log(pet.id);
+console.log(user.user_id);
 ```
 
 ### Logging
@@ -230,7 +274,7 @@ parameter. This library doesn't validate at runtime that the request matches the
 send will be sent as-is.
 
 ```ts
-client.pet.update({
+client.users.create({
   // ...
   // @ts-expect-error baz is not yet public
   baz: 'undocumented option',
