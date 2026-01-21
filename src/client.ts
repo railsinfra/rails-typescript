@@ -11,35 +11,35 @@ import type { APIResponseProps } from './internal/parse';
 import { getPlatformHeaders } from './internal/detect-platform';
 import * as Shims from './internal/shims';
 import * as Opts from './internal/request-options';
-import * as qs from './internal/qs';
 import { VERSION } from './version';
 import * as Errors from './core/error';
 import * as Uploads from './core/uploads';
 import * as API from './resources/index';
 import { APIPromise } from './core/api-promise';
 import {
-  Pet,
-  PetCreateParams,
-  PetFindByStatusParams,
-  PetFindByStatusResponse,
-  PetFindByTagsParams,
-  PetFindByTagsResponse,
-  PetResource,
-  PetUpdateParams,
-  PetUpdateWithFormDataParams,
-  PetUploadImageParams,
-  PetUploadImageResponse,
-} from './resources/pet';
+  AccountCloseResponse,
+  AccountCreateParams,
+  AccountCreateResponse,
+  AccountDepositParams,
+  AccountDepositResponse,
+  AccountListParams,
+  AccountListResponse,
+  AccountRetrieveResponse,
+  AccountTransferParams,
+  AccountTransferResponse,
+  AccountUpdateStatusParams,
+  AccountUpdateStatusResponse,
+  AccountWithdrawParams,
+  AccountWithdrawResponse,
+  Accounts,
+} from './resources/accounts';
 import {
-  User,
-  UserCreateParams,
-  UserCreateWithListParams,
-  UserLoginParams,
-  UserLoginResponse,
-  UserResource,
-  UserUpdateParams,
-} from './resources/user';
-import { Store, StoreListInventoryResponse } from './resources/store/store';
+  TransactionListByAccountParams,
+  TransactionListByAccountResponse,
+  TransactionRetrieveResponse,
+  Transactions,
+} from './resources/transactions';
+import { UserCreateParams, UserCreateResponse, Users } from './resources/users';
 import { type Fetch } from './internal/builtin-types';
 import { HeadersLike, NullableHeaders, buildHeaders } from './internal/headers';
 import { FinalRequestOptions, RequestOptions } from './internal/request-options';
@@ -150,7 +150,7 @@ export class Rails {
    * API Client for interfacing with the Rails API.
    *
    * @param {string | undefined} [opts.apiKey=process.env['RAILS_API_KEY'] ?? undefined]
-   * @param {string} [opts.baseURL=process.env['RAILS_BASE_URL'] ?? https://petstore3.swagger.io/api/v3] - Override the default base URL for the API.
+   * @param {string} [opts.baseURL=process.env['RAILS_BASE_URL'] ?? https://api.rails.com] - Override the default base URL for the API.
    * @param {number} [opts.timeout=1 minute] - The maximum amount of time (in milliseconds) the client will wait for a response before timing out.
    * @param {MergedRequestInit} [opts.fetchOptions] - Additional `RequestInit` options to be passed to `fetch` calls.
    * @param {Fetch} [opts.fetch] - Specify a custom `fetch` function implementation.
@@ -172,7 +172,7 @@ export class Rails {
     const options: ClientOptions = {
       apiKey,
       ...opts,
-      baseURL: baseURL || `https://petstore3.swagger.io/api/v3`,
+      baseURL: baseURL || `https://api.rails.com`,
     };
 
     this.baseURL = options.baseURL!;
@@ -218,7 +218,7 @@ export class Rails {
    * Check whether the base URL is set to its default.
    */
   #baseURLOverridden(): boolean {
-    return this.baseURL !== 'https://petstore3.swagger.io/api/v3';
+    return this.baseURL !== 'https://api.rails.com';
   }
 
   protected defaultQuery(): Record<string, string | undefined> | undefined {
@@ -230,11 +230,27 @@ export class Rails {
   }
 
   protected async authHeaders(opts: FinalRequestOptions): Promise<NullableHeaders | undefined> {
-    return buildHeaders([{ api_key: this.apiKey }]);
+    return buildHeaders([{ 'X-API-Key': this.apiKey }]);
   }
 
+  /**
+   * Basic re-implementation of `qs.stringify` for primitive types.
+   */
   protected stringifyQuery(query: Record<string, unknown>): string {
-    return qs.stringify(query, { arrayFormat: 'comma' });
+    return Object.entries(query)
+      .filter(([_, value]) => typeof value !== 'undefined')
+      .map(([key, value]) => {
+        if (typeof value === 'string' || typeof value === 'number' || typeof value === 'boolean') {
+          return `${encodeURIComponent(key)}=${encodeURIComponent(value)}`;
+        }
+        if (value === null) {
+          return `${encodeURIComponent(key)}=`;
+        }
+        throw new Errors.RailsError(
+          `Cannot stringify type ${typeof value}; Expected string, number, boolean, or null. If you need to pass nested query parameters, you can manually encode them, e.g. { query: { 'foo[key1]': value1, 'foo[key2]': value2 } }, and please open a GitHub issue requesting better support for your use case.`,
+        );
+      })
+      .join('&');
   }
 
   private getUserAgent(): string {
@@ -721,41 +737,46 @@ export class Rails {
 
   static toFile = Uploads.toFile;
 
-  pet: API.PetResource = new API.PetResource(this);
-  store: API.Store = new API.Store(this);
-  user: API.UserResource = new API.UserResource(this);
+  users: API.Users = new API.Users(this);
+  accounts: API.Accounts = new API.Accounts(this);
+  transactions: API.Transactions = new API.Transactions(this);
 }
 
-Rails.PetResource = PetResource;
-Rails.Store = Store;
-Rails.UserResource = UserResource;
+Rails.Users = Users;
+Rails.Accounts = Accounts;
+Rails.Transactions = Transactions;
 
 export declare namespace Rails {
   export type RequestOptions = Opts.RequestOptions;
 
   export {
-    PetResource as PetResource,
-    type Pet as Pet,
-    type PetFindByStatusResponse as PetFindByStatusResponse,
-    type PetFindByTagsResponse as PetFindByTagsResponse,
-    type PetUploadImageResponse as PetUploadImageResponse,
-    type PetCreateParams as PetCreateParams,
-    type PetUpdateParams as PetUpdateParams,
-    type PetFindByStatusParams as PetFindByStatusParams,
-    type PetFindByTagsParams as PetFindByTagsParams,
-    type PetUpdateWithFormDataParams as PetUpdateWithFormDataParams,
-    type PetUploadImageParams as PetUploadImageParams,
+    Users as Users,
+    type UserCreateResponse as UserCreateResponse,
+    type UserCreateParams as UserCreateParams,
   };
 
-  export { Store as Store, type StoreListInventoryResponse as StoreListInventoryResponse };
+  export {
+    Accounts as Accounts,
+    type AccountCreateResponse as AccountCreateResponse,
+    type AccountRetrieveResponse as AccountRetrieveResponse,
+    type AccountListResponse as AccountListResponse,
+    type AccountCloseResponse as AccountCloseResponse,
+    type AccountDepositResponse as AccountDepositResponse,
+    type AccountTransferResponse as AccountTransferResponse,
+    type AccountUpdateStatusResponse as AccountUpdateStatusResponse,
+    type AccountWithdrawResponse as AccountWithdrawResponse,
+    type AccountCreateParams as AccountCreateParams,
+    type AccountListParams as AccountListParams,
+    type AccountDepositParams as AccountDepositParams,
+    type AccountTransferParams as AccountTransferParams,
+    type AccountUpdateStatusParams as AccountUpdateStatusParams,
+    type AccountWithdrawParams as AccountWithdrawParams,
+  };
 
   export {
-    UserResource as UserResource,
-    type User as User,
-    type UserLoginResponse as UserLoginResponse,
-    type UserCreateParams as UserCreateParams,
-    type UserUpdateParams as UserUpdateParams,
-    type UserCreateWithListParams as UserCreateWithListParams,
-    type UserLoginParams as UserLoginParams,
+    Transactions as Transactions,
+    type TransactionRetrieveResponse as TransactionRetrieveResponse,
+    type TransactionListByAccountResponse as TransactionListByAccountResponse,
+    type TransactionListByAccountParams as TransactionListByAccountParams,
   };
 }
