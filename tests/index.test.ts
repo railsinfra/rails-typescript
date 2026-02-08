@@ -322,13 +322,30 @@ describe('instantiate client', () => {
     test('empty env variable', () => {
       process.env['RAILS_BASE_URL'] = ''; // empty
       const client = new Rails({ apiKey: 'My API Key' });
-      expect(client.baseURL).toEqual('https://api.rails.com');
+      expect(client.baseURL).toEqual('https://accounts-service-staging.up.railway.app');
     });
 
     test('blank env variable', () => {
       process.env['RAILS_BASE_URL'] = '  '; // blank
       const client = new Rails({ apiKey: 'My API Key' });
-      expect(client.baseURL).toEqual('https://api.rails.com');
+      expect(client.baseURL).toEqual('https://accounts-service-staging.up.railway.app');
+    });
+
+    test('env variable with environment', () => {
+      process.env['RAILS_BASE_URL'] = 'https://example.com/from_env';
+
+      expect(
+        () => new Rails({ apiKey: 'My API Key', environment: 'staging' }),
+      ).toThrowErrorMatchingInlineSnapshot(
+        `"Ambiguous URL; The \`baseURL\` option (or RAILS_BASE_URL env var) and the \`environment\` option are given. If you want to use the environment you must pass baseURL: null"`,
+      );
+
+      const client = new Rails({
+        apiKey: 'My API Key',
+        baseURL: null,
+        environment: 'staging',
+      });
+      expect(client.baseURL).toEqual('https://accounts-service-staging.up.railway.app');
     });
 
     test('in request options', () => {
