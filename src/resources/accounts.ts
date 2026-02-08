@@ -1,6 +1,7 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 import { APIResource } from '../core/resource';
+import * as Shared from './shared';
 import { APIPromise } from '../core/api-promise';
 import { RequestOptions } from '../internal/request-options';
 import { path } from '../internal/utils/path';
@@ -103,40 +104,12 @@ export interface Account {
   user_role?: string | null;
 }
 
-export interface Transaction {
-  id: string;
-
-  account_id: string;
-
-  amount: string;
-
-  balance_after: string;
-
-  created_at: string;
-
-  currency: string;
-
-  status: 'pending' | 'completed' | 'failed' | 'cancelled';
-
-  transaction_type: 'deposit' | 'withdrawal' | 'transfer' | 'recurring_payment' | 'savings_withdraw';
-
-  updated_at: string;
-
-  description?: string | null;
-
-  external_recipient_id?: string | null;
-
-  recipient_account_id?: string | null;
-
-  reference_id?: string | null;
-}
-
 export type AccountListResponse = Array<Account>;
 
 export interface AccountDepositResponse {
   account: Account;
 
-  transaction: Transaction;
+  transaction: Shared.Transaction;
 }
 
 export interface AccountTransferResponse {
@@ -144,13 +117,13 @@ export interface AccountTransferResponse {
 
   to_account: Account;
 
-  transaction: Transaction;
+  transaction: Shared.Transaction;
 }
 
 export interface AccountWithdrawResponse {
   account: Account;
 
-  transaction: Transaction;
+  transaction: Shared.Transaction;
 }
 
 export interface AccountCreateParams {
@@ -196,7 +169,6 @@ export interface AccountWithdrawParams {
 export declare namespace Accounts {
   export {
     type Account as Account,
-    type Transaction as Transaction,
     type AccountListResponse as AccountListResponse,
     type AccountDepositResponse as AccountDepositResponse,
     type AccountTransferResponse as AccountTransferResponse,

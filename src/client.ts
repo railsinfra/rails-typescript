@@ -29,7 +29,6 @@ import {
   AccountWithdrawParams,
   AccountWithdrawResponse,
   Accounts,
-  Transaction,
 } from './resources/accounts';
 import {
   TransactionListByAccountParams,
@@ -788,7 +787,6 @@ export declare namespace Rails {
   export {
     Accounts as Accounts,
     type Account as Account,
-    type Transaction as Transaction,
     type AccountListResponse as AccountListResponse,
     type AccountDepositResponse as AccountDepositResponse,
     type AccountTransferResponse as AccountTransferResponse,
@@ -808,4 +806,6 @@ export declare namespace Rails {
     type TransactionListParams as TransactionListParams,
     type TransactionListByAccountParams as TransactionListByAccountParams,
   };
+
+  export type Transaction = API.Transaction;
 }

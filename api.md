@@ -1,3 +1,9 @@
+# Shared
+
+Types:
+
+- <code><a href="./src/resources/shared.ts">Transaction</a></code>
+
 # Users
 
 Types:
@@ -13,7 +19,6 @@ Methods:
 Types:
 
 - <code><a href="./src/resources/accounts.ts">Account</a></code>
-- <code><a href="./src/resources/accounts.ts">Transaction</a></code>
 - <code><a href="./src/resources/accounts.ts">AccountListResponse</a></code>
 - <code><a href="./src/resources/accounts.ts">AccountDepositResponse</a></code>
 - <code><a href="./src/resources/accounts.ts">AccountTransferResponse</a></code>
