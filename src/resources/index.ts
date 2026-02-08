@@ -20,7 +20,9 @@ export {
 export {
   Transactions,
   type TransactionRetrieveResponse,
+  type TransactionListResponse,
   type TransactionListByAccountResponse,
+  type TransactionListParams,
   type TransactionListByAccountParams,
 } from './transactions';
 export { Users, type UserCreateResponse, type UserCreateParams } from './users';

@@ -21,6 +21,29 @@ describe('resource transactions', () => {
   });
 
   // Prism tests are disabled
+  test.skip('list: only required params', async () => {
+    const responsePromise = client.transactions.list({
+      organization_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+    });
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  // Prism tests are disabled
+  test.skip('list: required and optional params', async () => {
+    const response = await client.transactions.list({
+      organization_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+      page: 1,
+      per_page: 1,
+    });
+  });
+
+  // Prism tests are disabled
   test.skip('listByAccount', async () => {
     const responsePromise = client.transactions.listByAccount('182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e');
     const rawResponse = await responsePromise.asResponse();
