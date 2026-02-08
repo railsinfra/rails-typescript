@@ -31,10 +31,10 @@ const client = new Rails({
 });
 
 const user = await client.users.create({
-  email: 'dev@stainless.com',
-  first_name: 'first_name',
-  last_name: 'last_name',
-  password: 'password',
+  email: 'jane@example.com',
+  first_name: 'Jane',
+  last_name: 'Doe',
+  password: 'your-secure-password',
   'X-Environment': 'sandbox',
 });
 
@@ -55,10 +55,10 @@ const client = new Rails({
 });
 
 const params: Rails.UserCreateParams = {
-  email: 'dev@stainless.com',
-  first_name: 'first_name',
-  last_name: 'last_name',
-  password: 'password',
+  email: 'jane@example.com',
+  first_name: 'Jane',
+  last_name: 'Doe',
+  password: 'your-secure-password',
   'X-Environment': 'sandbox',
 };
 const user: Rails.UserCreateResponse = await client.users.create(params);
@@ -76,10 +76,10 @@ a subclass of `APIError` will be thrown:
 ```ts
 const user = await client.users
   .create({
-    email: 'dev@stainless.com',
-    first_name: 'first_name',
-    last_name: 'last_name',
-    password: 'password',
+    email: 'jane@example.com',
+    first_name: 'Jane',
+    last_name: 'Doe',
+    password: 'your-secure-password',
     'X-Environment': 'sandbox',
   })
   .catch(async (err) => {
@@ -123,10 +123,10 @@ const client = new Rails({
 
 // Or, configure per-request:
 await client.users.create({
-  email: 'dev@stainless.com',
-  first_name: 'first_name',
-  last_name: 'last_name',
-  password: 'password',
+  email: 'jane@example.com',
+  first_name: 'Jane',
+  last_name: 'Doe',
+  password: 'your-secure-password',
   'X-Environment': 'sandbox',
 }, {
   maxRetries: 5,
@@ -146,10 +146,10 @@ const client = new Rails({
 
 // Override per-request:
 await client.users.create({
-  email: 'dev@stainless.com',
-  first_name: 'first_name',
-  last_name: 'last_name',
-  password: 'password',
+  email: 'jane@example.com',
+  first_name: 'Jane',
+  last_name: 'Doe',
+  password: 'your-secure-password',
   'X-Environment': 'sandbox',
 }, {
   timeout: 5 * 1000,
@@ -176,10 +176,10 @@ const client = new Rails();
 
 const response = await client.users
   .create({
-    email: 'dev@stainless.com',
-    first_name: 'first_name',
-    last_name: 'last_name',
-    password: 'password',
+    email: 'jane@example.com',
+    first_name: 'Jane',
+    last_name: 'Doe',
+    password: 'your-secure-password',
     'X-Environment': 'sandbox',
   })
   .asResponse();
@@ -188,10 +188,10 @@ console.log(response.statusText); // access the underlying Response object
 
 const { data: user, response: raw } = await client.users
   .create({
-    email: 'dev@stainless.com',
-    first_name: 'first_name',
-    last_name: 'last_name',
-    password: 'password',
+    email: 'jane@example.com',
+    first_name: 'Jane',
+    last_name: 'Doe',
+    password: 'your-secure-password',
     'X-Environment': 'sandbox',
   })
   .withResponse();

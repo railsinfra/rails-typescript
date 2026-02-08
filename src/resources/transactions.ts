@@ -1,7 +1,7 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 import { APIResource } from '../core/resource';
-import * as AccountsAPI from './accounts';
+import * as Shared from './shared';
 import { APIPromise } from '../core/api-promise';
 import { RequestOptions } from '../internal/request-options';
 import { path } from '../internal/utils/path';
@@ -10,7 +10,7 @@ export class Transactions extends APIResource {
   /**
    * Retrieve transaction
    */
-  retrieve(id: string, options?: RequestOptions): APIPromise<AccountsAPI.Transaction> {
+  retrieve(id: string, options?: RequestOptions): APIPromise<Shared.Transaction> {
     return this._client.get(path`/api/v1/transactions/${id}`, options);
   }
 
@@ -86,7 +86,7 @@ export namespace TransactionListResponse {
   }
 }
 
-export type TransactionListByAccountResponse = Array<AccountsAPI.Transaction>;
+export type TransactionListByAccountResponse = Array<Shared.Transaction>;
 
 export interface TransactionListParams {
   organization_id: string;
