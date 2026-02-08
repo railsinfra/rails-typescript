@@ -17,28 +17,25 @@ import * as Uploads from './core/uploads';
 import * as API from './resources/index';
 import { APIPromise } from './core/api-promise';
 import {
-  AccountCloseResponse,
+  Account,
   AccountCreateParams,
-  AccountCreateResponse,
   AccountDepositParams,
   AccountDepositResponse,
   AccountListParams,
   AccountListResponse,
-  AccountRetrieveResponse,
   AccountTransferParams,
   AccountTransferResponse,
   AccountUpdateStatusParams,
-  AccountUpdateStatusResponse,
   AccountWithdrawParams,
   AccountWithdrawResponse,
   Accounts,
+  Transaction,
 } from './resources/accounts';
 import {
   TransactionListByAccountParams,
   TransactionListByAccountResponse,
   TransactionListParams,
   TransactionListResponse,
-  TransactionRetrieveResponse,
   Transactions,
 } from './resources/transactions';
 import { UserCreateParams, UserCreateResponse, Users } from './resources/users';
@@ -790,13 +787,11 @@ export declare namespace Rails {
 
   export {
     Accounts as Accounts,
-    type AccountCreateResponse as AccountCreateResponse,
-    type AccountRetrieveResponse as AccountRetrieveResponse,
+    type Account as Account,
+    type Transaction as Transaction,
     type AccountListResponse as AccountListResponse,
-    type AccountCloseResponse as AccountCloseResponse,
     type AccountDepositResponse as AccountDepositResponse,
     type AccountTransferResponse as AccountTransferResponse,
-    type AccountUpdateStatusResponse as AccountUpdateStatusResponse,
     type AccountWithdrawResponse as AccountWithdrawResponse,
     type AccountCreateParams as AccountCreateParams,
     type AccountListParams as AccountListParams,
@@ -808,7 +803,6 @@ export declare namespace Rails {
 
   export {
     Transactions as Transactions,
-    type TransactionRetrieveResponse as TransactionRetrieveResponse,
     type TransactionListResponse as TransactionListResponse,
     type TransactionListByAccountResponse as TransactionListByAccountResponse,
     type TransactionListParams as TransactionListParams,

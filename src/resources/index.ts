@@ -2,13 +2,11 @@
 
 export {
   Accounts,
-  type AccountCreateResponse,
-  type AccountRetrieveResponse,
+  type Account,
+  type Transaction,
   type AccountListResponse,
-  type AccountCloseResponse,
   type AccountDepositResponse,
   type AccountTransferResponse,
-  type AccountUpdateStatusResponse,
   type AccountWithdrawResponse,
   type AccountCreateParams,
   type AccountListParams,
@@ -19,7 +17,6 @@ export {
 } from './accounts';
 export {
   Transactions,
-  type TransactionRetrieveResponse,
   type TransactionListResponse,
   type TransactionListByAccountResponse,
   type TransactionListParams,

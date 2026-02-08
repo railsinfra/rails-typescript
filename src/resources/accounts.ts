@@ -9,14 +9,14 @@ export class Accounts extends APIResource {
   /**
    * Create account
    */
-  create(body: AccountCreateParams, options?: RequestOptions): APIPromise<AccountCreateResponse> {
+  create(body: AccountCreateParams, options?: RequestOptions): APIPromise<Account> {
     return this._client.post('/api/v1/accounts', { body, ...options });
   }
 
   /**
    * Retrieve account
    */
-  retrieve(id: string, options?: RequestOptions): APIPromise<AccountRetrieveResponse> {
+  retrieve(id: string, options?: RequestOptions): APIPromise<Account> {
     return this._client.get(path`/api/v1/accounts/${id}`, options);
   }
 
@@ -30,7 +30,7 @@ export class Accounts extends APIResource {
   /**
    * Close account
    */
-  close(id: string, options?: RequestOptions): APIPromise<AccountCloseResponse> {
+  close(id: string, options?: RequestOptions): APIPromise<Account> {
     return this._client.delete(path`/api/v1/accounts/${id}`, options);
   }
 
@@ -59,11 +59,7 @@ export class Accounts extends APIResource {
   /**
    * Update account status
    */
-  updateStatus(
-    id: string,
-    body: AccountUpdateStatusParams,
-    options?: RequestOptions,
-  ): APIPromise<AccountUpdateStatusResponse> {
+  updateStatus(id: string, body: AccountUpdateStatusParams, options?: RequestOptions): APIPromise<Account> {
     return this._client.patch(path`/api/v1/accounts/${id}`, { body, ...options });
   }
 
@@ -79,7 +75,7 @@ export class Accounts extends APIResource {
   }
 }
 
-export interface AccountCreateResponse {
+export interface Account {
   id: string;
 
   account_number: string;
@@ -107,342 +103,54 @@ export interface AccountCreateResponse {
   user_role?: string | null;
 }
 
-export interface AccountRetrieveResponse {
+export interface Transaction {
   id: string;
 
-  account_number: string;
+  account_id: string;
 
-  account_type: 'checking' | 'saving';
+  amount: string;
 
-  balance: string;
+  balance_after: string;
+
+  created_at: string;
 
   currency: string;
 
-  environment: string;
+  status: 'pending' | 'completed' | 'failed' | 'cancelled';
 
-  status: 'active' | 'suspended' | 'closed';
+  transaction_type: 'deposit' | 'withdrawal' | 'transfer' | 'recurring_payment' | 'savings_withdraw';
 
-  user_id: string;
+  updated_at: string;
 
-  admin_user_id?: string | null;
+  description?: string | null;
 
-  created_at?: string | null;
+  external_recipient_id?: string | null;
 
-  organization_id?: string | null;
+  recipient_account_id?: string | null;
 
-  updated_at?: string | null;
-
-  user_role?: string | null;
+  reference_id?: string | null;
 }
 
-export type AccountListResponse = Array<AccountListResponse.AccountListResponseItem>;
-
-export namespace AccountListResponse {
-  export interface AccountListResponseItem {
-    id: string;
-
-    account_number: string;
-
-    account_type: 'checking' | 'saving';
-
-    balance: string;
-
-    currency: string;
-
-    environment: string;
-
-    status: 'active' | 'suspended' | 'closed';
-
-    user_id: string;
-
-    admin_user_id?: string | null;
-
-    created_at?: string | null;
-
-    organization_id?: string | null;
-
-    updated_at?: string | null;
-
-    user_role?: string | null;
-  }
-}
-
-export interface AccountCloseResponse {
-  id: string;
-
-  account_number: string;
-
-  account_type: 'checking' | 'saving';
-
-  balance: string;
-
-  currency: string;
-
-  environment: string;
-
-  status: 'active' | 'suspended' | 'closed';
-
-  user_id: string;
-
-  admin_user_id?: string | null;
-
-  created_at?: string | null;
-
-  organization_id?: string | null;
-
-  updated_at?: string | null;
-
-  user_role?: string | null;
-}
+export type AccountListResponse = Array<Account>;
 
 export interface AccountDepositResponse {
-  account: AccountDepositResponse.Account;
+  account: Account;
 
-  transaction: AccountDepositResponse.Transaction;
-}
-
-export namespace AccountDepositResponse {
-  export interface Account {
-    id: string;
-
-    account_number: string;
-
-    account_type: 'checking' | 'saving';
-
-    balance: string;
-
-    currency: string;
-
-    environment: string;
-
-    status: 'active' | 'suspended' | 'closed';
-
-    user_id: string;
-
-    admin_user_id?: string | null;
-
-    created_at?: string | null;
-
-    organization_id?: string | null;
-
-    updated_at?: string | null;
-
-    user_role?: string | null;
-  }
-
-  export interface Transaction {
-    id: string;
-
-    account_id: string;
-
-    amount: string;
-
-    balance_after: string;
-
-    created_at: string;
-
-    currency: string;
-
-    status: 'pending' | 'completed' | 'failed' | 'cancelled';
-
-    transaction_type: 'deposit' | 'withdrawal' | 'transfer' | 'recurring_payment' | 'savings_withdraw';
-
-    updated_at: string;
-
-    description?: string | null;
-
-    external_recipient_id?: string | null;
-
-    recipient_account_id?: string | null;
-
-    reference_id?: string | null;
-  }
+  transaction: Transaction;
 }
 
 export interface AccountTransferResponse {
-  from_account: AccountTransferResponse.FromAccount;
+  from_account: Account;
 
-  to_account: AccountTransferResponse.ToAccount;
+  to_account: Account;
 
-  transaction: AccountTransferResponse.Transaction;
-}
-
-export namespace AccountTransferResponse {
-  export interface FromAccount {
-    id: string;
-
-    account_number: string;
-
-    account_type: 'checking' | 'saving';
-
-    balance: string;
-
-    currency: string;
-
-    environment: string;
-
-    status: 'active' | 'suspended' | 'closed';
-
-    user_id: string;
-
-    admin_user_id?: string | null;
-
-    created_at?: string | null;
-
-    organization_id?: string | null;
-
-    updated_at?: string | null;
-
-    user_role?: string | null;
-  }
-
-  export interface ToAccount {
-    id: string;
-
-    account_number: string;
-
-    account_type: 'checking' | 'saving';
-
-    balance: string;
-
-    currency: string;
-
-    environment: string;
-
-    status: 'active' | 'suspended' | 'closed';
-
-    user_id: string;
-
-    admin_user_id?: string | null;
-
-    created_at?: string | null;
-
-    organization_id?: string | null;
-
-    updated_at?: string | null;
-
-    user_role?: string | null;
-  }
-
-  export interface Transaction {
-    id: string;
-
-    account_id: string;
-
-    amount: string;
-
-    balance_after: string;
-
-    created_at: string;
-
-    currency: string;
-
-    status: 'pending' | 'completed' | 'failed' | 'cancelled';
-
-    transaction_type: 'deposit' | 'withdrawal' | 'transfer' | 'recurring_payment' | 'savings_withdraw';
-
-    updated_at: string;
-
-    description?: string | null;
-
-    external_recipient_id?: string | null;
-
-    recipient_account_id?: string | null;
-
-    reference_id?: string | null;
-  }
-}
-
-export interface AccountUpdateStatusResponse {
-  id: string;
-
-  account_number: string;
-
-  account_type: 'checking' | 'saving';
-
-  balance: string;
-
-  currency: string;
-
-  environment: string;
-
-  status: 'active' | 'suspended' | 'closed';
-
-  user_id: string;
-
-  admin_user_id?: string | null;
-
-  created_at?: string | null;
-
-  organization_id?: string | null;
-
-  updated_at?: string | null;
-
-  user_role?: string | null;
+  transaction: Transaction;
 }
 
 export interface AccountWithdrawResponse {
-  account: AccountWithdrawResponse.Account;
+  account: Account;
 
-  transaction: AccountWithdrawResponse.Transaction;
-}
-
-export namespace AccountWithdrawResponse {
-  export interface Account {
-    id: string;
-
-    account_number: string;
-
-    account_type: 'checking' | 'saving';
-
-    balance: string;
-
-    currency: string;
-
-    environment: string;
-
-    status: 'active' | 'suspended' | 'closed';
-
-    user_id: string;
-
-    admin_user_id?: string | null;
-
-    created_at?: string | null;
-
-    organization_id?: string | null;
-
-    updated_at?: string | null;
-
-    user_role?: string | null;
-  }
-
-  export interface Transaction {
-    id: string;
-
-    account_id: string;
-
-    amount: string;
-
-    balance_after: string;
-
-    created_at: string;
-
-    currency: string;
-
-    status: 'pending' | 'completed' | 'failed' | 'cancelled';
-
-    transaction_type: 'deposit' | 'withdrawal' | 'transfer' | 'recurring_payment' | 'savings_withdraw';
-
-    updated_at: string;
-
-    description?: string | null;
-
-    external_recipient_id?: string | null;
-
-    recipient_account_id?: string | null;
-
-    reference_id?: string | null;
-  }
+  transaction: Transaction;
 }
 
 export interface AccountCreateParams {
@@ -487,13 +195,11 @@ export interface AccountWithdrawParams {
 
 export declare namespace Accounts {
   export {
-    type AccountCreateResponse as AccountCreateResponse,
-    type AccountRetrieveResponse as AccountRetrieveResponse,
+    type Account as Account,
+    type Transaction as Transaction,
     type AccountListResponse as AccountListResponse,
-    type AccountCloseResponse as AccountCloseResponse,
     type AccountDepositResponse as AccountDepositResponse,
     type AccountTransferResponse as AccountTransferResponse,
-    type AccountUpdateStatusResponse as AccountUpdateStatusResponse,
     type AccountWithdrawResponse as AccountWithdrawResponse,
     type AccountCreateParams as AccountCreateParams,
     type AccountListParams as AccountListParams,
