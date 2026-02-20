@@ -8,7 +8,7 @@ const client = new Rails({
 });
 
 describe('resource users', () => {
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('create: only required params', async () => {
     const responsePromise = client.users.create({
       email: 'dev@stainless.com',
@@ -26,7 +26,7 @@ describe('resource users', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('create: required and optional params', async () => {
     const response = await client.users.create({
       email: 'dev@stainless.com',
