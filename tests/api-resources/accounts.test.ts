@@ -8,7 +8,7 @@ const client = new Rails({
 });
 
 describe('resource accounts', () => {
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('create: only required params', async () => {
     const responsePromise = client.accounts.create({
       account_type: 'checking',
@@ -23,7 +23,7 @@ describe('resource accounts', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('create: required and optional params', async () => {
     const response = await client.accounts.create({
       account_type: 'checking',
@@ -34,7 +34,7 @@ describe('resource accounts', () => {
     });
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('retrieve', async () => {
     const responsePromise = client.accounts.retrieve('182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e');
     const rawResponse = await responsePromise.asResponse();
@@ -46,7 +46,7 @@ describe('resource accounts', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('list: only required params', async () => {
     const responsePromise = client.accounts.list({ user_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e' });
     const rawResponse = await responsePromise.asResponse();
@@ -58,12 +58,12 @@ describe('resource accounts', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('list: required and optional params', async () => {
     const response = await client.accounts.list({ user_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e' });
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('close', async () => {
     const responsePromise = client.accounts.close('182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e');
     const rawResponse = await responsePromise.asResponse();
@@ -75,7 +75,7 @@ describe('resource accounts', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('deposit: only required params', async () => {
     const responsePromise = client.accounts.deposit('182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e', {
       amount: 'amount',
@@ -89,7 +89,7 @@ describe('resource accounts', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('deposit: required and optional params', async () => {
     const response = await client.accounts.deposit('182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e', {
       amount: 'amount',
@@ -97,7 +97,7 @@ describe('resource accounts', () => {
     });
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('transfer: only required params', async () => {
     const responsePromise = client.accounts.transfer('182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e', {
       amount: 'amount',
@@ -112,7 +112,7 @@ describe('resource accounts', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('transfer: required and optional params', async () => {
     const response = await client.accounts.transfer('182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e', {
       amount: 'amount',
@@ -121,7 +121,7 @@ describe('resource accounts', () => {
     });
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('updateStatus', async () => {
     const responsePromise = client.accounts.updateStatus('182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e', {});
     const rawResponse = await responsePromise.asResponse();
@@ -133,7 +133,7 @@ describe('resource accounts', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('withdraw: only required params', async () => {
     const responsePromise = client.accounts.withdraw('182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e', {
       amount: 'amount',
@@ -147,7 +147,7 @@ describe('resource accounts', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('withdraw: required and optional params', async () => {
     const response = await client.accounts.withdraw('182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e', {
       amount: 'amount',
