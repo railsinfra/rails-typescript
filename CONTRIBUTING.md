@@ -60,7 +60,7 @@ $ yarn link rails
 # With pnpm
 $ pnpm link --global
 $ cd ../my-package
-$ pnpm link -—global rails
+$ pnpm link --global rails
 ```
 
 ## Running tests
