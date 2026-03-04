@@ -762,8 +762,17 @@ export class Rails {
 
   static toFile = Uploads.toFile;
 
+  /**
+   * Users
+   */
   users: API.Users = new API.Users(this);
+  /**
+   * Accounts
+   */
   accounts: API.Accounts = new API.Accounts(this);
+  /**
+   * Transactions
+   */
   transactions: API.Transactions = new API.Transactions(this);
 }
 
