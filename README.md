@@ -30,15 +30,9 @@ const client = new Rails({
   environment: 'production', // defaults to 'staging'
 });
 
-const user = await client.users.create({
-  email: 'jane@example.com',
-  first_name: 'Jane',
-  last_name: 'Doe',
-  password: 'your-secure-password',
-  'X-Environment': 'sandbox',
-});
+const account = await client.accounts.create({ account_type: 'checking' });
 
-console.log(user.user_id);
+console.log(account.id);
 ```
 
 ### Request & Response types
@@ -54,14 +48,8 @@ const client = new Rails({
   environment: 'production', // defaults to 'staging'
 });
 
-const params: Rails.UserCreateParams = {
-  email: 'jane@example.com',
-  first_name: 'Jane',
-  last_name: 'Doe',
-  password: 'your-secure-password',
-  'X-Environment': 'sandbox',
-};
-const user: Rails.UserCreateResponse = await client.users.create(params);
+const params: Rails.AccountCreateParams = { account_type: 'checking' };
+const account: Rails.AccountCreateResponse = await client.accounts.create(params);
 ```
 
 Documentation for each method, request param, and response field are available in docstrings and will appear on hover in most modern editors.
@@ -74,23 +62,15 @@ a subclass of `APIError` will be thrown:
 
 <!-- prettier-ignore -->
 ```ts
-const user = await client.users
-  .create({
-    email: 'jane@example.com',
-    first_name: 'Jane',
-    last_name: 'Doe',
-    password: 'your-secure-password',
-    'X-Environment': 'sandbox',
-  })
-  .catch(async (err) => {
-    if (err instanceof Rails.APIError) {
-      console.log(err.status); // 400
-      console.log(err.name); // BadRequestError
-      console.log(err.headers); // {server: 'nginx', ...}
-    } else {
-      throw err;
-    }
-  });
+const account = await client.accounts.create({ account_type: 'checking' }).catch(async (err) => {
+  if (err instanceof Rails.APIError) {
+    console.log(err.status); // 400
+    console.log(err.name); // BadRequestError
+    console.log(err.headers); // {server: 'nginx', ...}
+  } else {
+    throw err;
+  }
+});
 ```
 
 Error codes are as follows:
@@ -122,13 +102,7 @@ const client = new Rails({
 });
 
 // Or, configure per-request:
-await client.users.create({
-  email: 'jane@example.com',
-  first_name: 'Jane',
-  last_name: 'Doe',
-  password: 'your-secure-password',
-  'X-Environment': 'sandbox',
-}, {
+await client.accounts.create({ account_type: 'checking' }, {
   maxRetries: 5,
 });
 ```
@@ -145,13 +119,7 @@ const client = new Rails({
 });
 
 // Override per-request:
-await client.users.create({
-  email: 'jane@example.com',
-  first_name: 'Jane',
-  last_name: 'Doe',
-  password: 'your-secure-password',
-  'X-Environment': 'sandbox',
-}, {
+await client.accounts.create({ account_type: 'checking' }, {
   timeout: 5 * 1000,
 });
 ```
@@ -174,29 +142,15 @@ Unlike `.asResponse()` this method consumes the body, returning once it is parse
 ```ts
 const client = new Rails();
 
-const response = await client.users
-  .create({
-    email: 'jane@example.com',
-    first_name: 'Jane',
-    last_name: 'Doe',
-    password: 'your-secure-password',
-    'X-Environment': 'sandbox',
-  })
-  .asResponse();
+const response = await client.accounts.create({ account_type: 'checking' }).asResponse();
 console.log(response.headers.get('X-My-Header'));
 console.log(response.statusText); // access the underlying Response object
 
-const { data: user, response: raw } = await client.users
-  .create({
-    email: 'jane@example.com',
-    first_name: 'Jane',
-    last_name: 'Doe',
-    password: 'your-secure-password',
-    'X-Environment': 'sandbox',
-  })
+const { data: account, response: raw } = await client.accounts
+  .create({ account_type: 'checking' })
   .withResponse();
 console.log(raw.headers.get('X-My-Header'));
-console.log(user.user_id);
+console.log(account.id);
 ```
 
 ### Logging
@@ -276,7 +230,7 @@ parameter. This library doesn't validate at runtime that the request matches the
 send will be sent as-is.
 
 ```ts
-client.users.create({
+client.accounts.create({
   // ...
   // @ts-expect-error baz is not yet public
   baz: 'undocumented option',
