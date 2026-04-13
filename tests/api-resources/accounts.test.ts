@@ -10,10 +10,7 @@ const client = new Rails({
 describe('resource accounts', () => {
   // Mock server tests are disabled
   test.skip('create: only required params', async () => {
-    const responsePromise = client.accounts.create({
-      account_type: 'checking',
-      user_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
-    });
+    const responsePromise = client.accounts.create({ account_type: 'checking' });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -27,10 +24,13 @@ describe('resource accounts', () => {
   test.skip('create: required and optional params', async () => {
     const response = await client.accounts.create({
       account_type: 'checking',
-      user_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
       currency: 'currency',
+      email: 'dev@stainless.com',
       environment: 'environment',
+      first_name: 'first_name',
+      last_name: 'last_name',
       organization_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+      user_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
     });
   });
 

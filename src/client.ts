@@ -18,15 +18,18 @@ import * as Uploads from './core/uploads';
 import * as API from './resources/index';
 import { APIPromise } from './core/api-promise';
 import {
-  Account,
+  AccountCloseResponse,
   AccountCreateParams,
+  AccountCreateResponse,
   AccountDepositParams,
   AccountDepositResponse,
   AccountListParams,
   AccountListResponse,
+  AccountRetrieveResponse,
   AccountTransferParams,
   AccountTransferResponse,
   AccountUpdateStatusParams,
+  AccountUpdateStatusResponse,
   AccountWithdrawParams,
   AccountWithdrawResponse,
   Accounts,
@@ -36,9 +39,9 @@ import {
   TransactionListByAccountResponse,
   TransactionListParams,
   TransactionListResponse,
+  TransactionRetrieveResponse,
   Transactions,
 } from './resources/transactions';
-import { UserCreateParams, UserCreateResponse, Users } from './resources/users';
 import { type Fetch } from './internal/builtin-types';
 import { HeadersLike, NullableHeaders, buildHeaders } from './internal/headers';
 import { FinalRequestOptions, RequestOptions } from './internal/request-options';
@@ -764,10 +767,6 @@ export class Rails {
   static toFile = Uploads.toFile;
 
   /**
-   * Users
-   */
-  users: API.Users = new API.Users(this);
-  /**
    * Accounts
    */
   accounts: API.Accounts = new API.Accounts(this);
@@ -777,7 +776,6 @@ export class Rails {
   transactions: API.Transactions = new API.Transactions(this);
 }
 
-Rails.Users = Users;
 Rails.Accounts = Accounts;
 Rails.Transactions = Transactions;
 
@@ -785,17 +783,14 @@ export declare namespace Rails {
   export type RequestOptions = Opts.RequestOptions;
 
   export {
-    Users as Users,
-    type UserCreateResponse as UserCreateResponse,
-    type UserCreateParams as UserCreateParams,
-  };
-
-  export {
     Accounts as Accounts,
-    type Account as Account,
+    type AccountCreateResponse as AccountCreateResponse,
+    type AccountRetrieveResponse as AccountRetrieveResponse,
     type AccountListResponse as AccountListResponse,
+    type AccountCloseResponse as AccountCloseResponse,
     type AccountDepositResponse as AccountDepositResponse,
     type AccountTransferResponse as AccountTransferResponse,
+    type AccountUpdateStatusResponse as AccountUpdateStatusResponse,
     type AccountWithdrawResponse as AccountWithdrawResponse,
     type AccountCreateParams as AccountCreateParams,
     type AccountListParams as AccountListParams,
@@ -807,11 +802,10 @@ export declare namespace Rails {
 
   export {
     Transactions as Transactions,
+    type TransactionRetrieveResponse as TransactionRetrieveResponse,
     type TransactionListResponse as TransactionListResponse,
     type TransactionListByAccountResponse as TransactionListByAccountResponse,
     type TransactionListParams as TransactionListParams,
     type TransactionListByAccountParams as TransactionListByAccountParams,
   };
-
-  export type Transaction = API.Transaction;
 }

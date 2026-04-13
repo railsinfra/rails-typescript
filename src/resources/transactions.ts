@@ -1,7 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 import { APIResource } from '../core/resource';
-import * as Shared from './shared';
 import { APIPromise } from '../core/api-promise';
 import { RequestOptions } from '../internal/request-options';
 import { path } from '../internal/utils/path';
@@ -13,7 +12,7 @@ export class Transactions extends APIResource {
   /**
    * Retrieve transaction
    */
-  retrieve(id: string, options?: RequestOptions): APIPromise<Shared.Transaction> {
+  retrieve(id: string, options?: RequestOptions): APIPromise<TransactionRetrieveResponse> {
     return this._client.get(path`/api/v1/transactions/${id}`, options);
   }
 
@@ -34,6 +33,34 @@ export class Transactions extends APIResource {
   ): APIPromise<TransactionListByAccountResponse> {
     return this._client.get(path`/api/v1/accounts/${accountID}/transactions`, { query, ...options });
   }
+}
+
+export interface TransactionRetrieveResponse {
+  id: string;
+
+  account_id: string;
+
+  amount: string;
+
+  balance_after: string;
+
+  created_at: string;
+
+  currency: string;
+
+  status: 'pending' | 'completed' | 'failed' | 'cancelled';
+
+  transaction_type: 'deposit' | 'withdrawal' | 'transfer' | 'recurring_payment' | 'savings_withdraw';
+
+  updated_at: string;
+
+  description?: string | null;
+
+  external_recipient_id?: string | null;
+
+  recipient_account_id?: string | null;
+
+  reference_id?: string | null;
 }
 
 export interface TransactionListResponse {
@@ -89,7 +116,38 @@ export namespace TransactionListResponse {
   }
 }
 
-export type TransactionListByAccountResponse = Array<Shared.Transaction>;
+export type TransactionListByAccountResponse =
+  Array<TransactionListByAccountResponse.TransactionListByAccountResponseItem>;
+
+export namespace TransactionListByAccountResponse {
+  export interface TransactionListByAccountResponseItem {
+    id: string;
+
+    account_id: string;
+
+    amount: string;
+
+    balance_after: string;
+
+    created_at: string;
+
+    currency: string;
+
+    status: 'pending' | 'completed' | 'failed' | 'cancelled';
+
+    transaction_type: 'deposit' | 'withdrawal' | 'transfer' | 'recurring_payment' | 'savings_withdraw';
+
+    updated_at: string;
+
+    description?: string | null;
+
+    external_recipient_id?: string | null;
+
+    recipient_account_id?: string | null;
+
+    reference_id?: string | null;
+  }
+}
 
 export interface TransactionListParams {
   organization_id: string;
@@ -105,6 +163,7 @@ export interface TransactionListByAccountParams {
 
 export declare namespace Transactions {
   export {
+    type TransactionRetrieveResponse as TransactionRetrieveResponse,
     type TransactionListResponse as TransactionListResponse,
     type TransactionListByAccountResponse as TransactionListByAccountResponse,
     type TransactionListParams as TransactionListParams,
