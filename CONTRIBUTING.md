@@ -1,3 +1,9 @@
+# Contributing
+
+Thank you for helping improve this SDK. Report security issues via [`SECURITY.md`](SECURITY.md) (not public issues). Participation is covered by [`CODE_OF_CONDUCT.md`](CODE_OF_CONDUCT.md).
+
+Most of the client surface is regenerated from an internal OpenAPI/Stainless configuration. Coordinate larger changes with maintainers to avoid conflicts with the next regeneration.
+
 ## Setting up the environment
 
 This repository uses [`pnpm`](https://pnpm.io/).
@@ -42,14 +48,14 @@ If you’d like to use the repository from source, you can either install from g
 To install via git:
 
 ```sh
-$ npm install git+ssh://git@github.com:stainless-sdks/rails-typescript.git
+$ npm install git+ssh://git@github.com:railsinfra/rails-typescript.git
 ```
 
 Alternatively, to link a local copy of the repo:
 
 ```sh
 # Clone
-$ git clone https://www.github.com/stainless-sdks/rails-typescript
+$ git clone https://www.github.com/railsinfra/rails-typescript
 $ cd rails-typescript
 
 # With yarn
