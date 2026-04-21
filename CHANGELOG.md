@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.2.10 (2026-04-21)
+
+Full Changelog: [v0.2.9...v0.2.10](https://github.com/railsinfra/rails-typescript/compare/v0.2.9...v0.2.10)
+
+### Bug Fixes
+
+* **ci:** pass github.environment into publish steps only ([24a4690](https://github.com/railsinfra/rails-typescript/commit/24a46906f838ad10b1b4b2f66f9213bafcb64600))
+* **ci:** satisfy npm trusted publishing engine requirements ([b24a74d](https://github.com/railsinfra/rails-typescript/commit/b24a74d2d894cd66d1a1daeb55043d200470c10a))
+
 ## 0.2.9 (2026-04-21)
 
 Full Changelog: [v0.2.8...v0.2.9](https://github.com/railsinfra/rails-typescript/compare/v0.2.8...v0.2.9)
