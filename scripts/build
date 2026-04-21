@@ -42,8 +42,9 @@ node scripts/utils/postprocess-files.cjs
 
 # make sure that nothing crashes when we require the output CJS or
 # import the output ESM
-(cd dist && node -e 'require("railsinfra")')
-(cd dist && node -e 'import("railsinfra")' --input-type=module)
+PACKAGE_NAME="$(jq -r -e '.name' dist/package.json)"
+(cd dist && node -e "require('${PACKAGE_NAME}')")
+(cd dist && node -e "import('${PACKAGE_NAME}')" --input-type=module)
 
 if [ -e ./scripts/build-deno ]
 then
