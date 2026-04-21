@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.2.2 (2026-04-21)
+
+Full Changelog: [v0.2.1...v0.2.2](https://github.com/railsinfra/rails-typescript/compare/v0.2.1...v0.2.2)
+
+### Bug Fixes
+
+* **build:** use package name for dist runtime checks ([896a5b7](https://github.com/railsinfra/rails-typescript/commit/896a5b7b0496741ecb42e58f119376636fa577e1))
+
+
+### Chores
+
+* rename npm package to @railsinfra/rails ([7f1c782](https://github.com/railsinfra/rails-typescript/commit/7f1c78236f404fa42bd618952b0b785e78253cf4))
+
 ## 0.2.1 (2026-04-21)
 
 Full Changelog: [v0.2.0...v0.2.1](https://github.com/railsinfra/rails-typescript/compare/v0.2.0...v0.2.1)
