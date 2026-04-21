@@ -2,7 +2,11 @@
 
 set -eux
 
-npm config set '//registry.npmjs.org/:_authToken' "$NPM_TOKEN"
+# Trusted Publisher (OIDC) does not require an npm token.
+# Keep token auth as an optional fallback for local/manual runs.
+if [[ -n "${NPM_TOKEN:-}" ]]; then
+  npm config set '//registry.npmjs.org/:_authToken' "$NPM_TOKEN"
+fi
 
 pnpm build
 cd dist
