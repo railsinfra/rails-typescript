@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.2.1 (2026-04-21)
+
+Full Changelog: [v0.2.0...v0.2.1](https://github.com/railsinfra/rails-typescript/compare/v0.2.0...v0.2.1)
+
+### Chores
+
+* update SDK settings ([a79cfa7](https://github.com/railsinfra/rails-typescript/commit/a79cfa70f92cff9c4da99bbf331c7d37a2189375))
+
 ## 0.2.0 (2026-04-21)
 
 Full Changelog: [v0.1.0...v0.2.0](https://github.com/railsinfra/rails-typescript/compare/v0.1.0...v0.2.0)
