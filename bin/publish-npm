@@ -61,5 +61,6 @@ else
   TAG="latest"
 fi
 
-# Publish with the appropriate tag
-pnpm publish --no-git-checks --tag "$TAG"
+# Publish with the appropriate tag.
+# Use npm CLI so Trusted Publisher (OIDC) auth is applied in GitHub Actions.
+npm publish --tag "$TAG"
