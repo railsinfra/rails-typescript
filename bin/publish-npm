@@ -13,7 +13,7 @@ _debug_log_path() {
   if [[ -n "${RAILS_NPM_DEBUG_LOG:-}" ]]; then
     printf '%s' "$RAILS_NPM_DEBUG_LOG"
   elif [[ -n "${GITHUB_WORKSPACE:-}" ]]; then
-    printf '%s' "${GITHUB_WORKSPACE}/.cursor/debug-b1c583.log"
+    printf '%s' "${GITHUB_WORKSPACE}/npm-publish-debug/debug-b1c583.log"
   else
     printf '%s' "/Users/sibabale.joja/projects/personal/code/rails/.cursor/debug-b1c583.log"
   fi

@@ -22,8 +22,8 @@ jobs:
 
       - name: Init publish debug log
         run: |
-          mkdir -p .cursor
-          : >.cursor/debug-b1c583.log
+          mkdir -p npm-publish-debug
+          : >npm-publish-debug/debug-b1c583.log
 
       - name: Set up Node
         uses: actions/setup-node@v4
@@ -40,15 +40,29 @@ jobs:
 
       - name: Publish to NPM
         env:
-          RAILS_NPM_DEBUG_LOG: ${{ github.workspace }}/.cursor/debug-b1c583.log
+          RAILS_NPM_DEBUG_LOG: ${{ github.workspace }}/npm-publish-debug/debug-b1c583.log
         run: |
           mkdir -p "$(dirname "$RAILS_NPM_DEBUG_LOG")"
           bash ./bin/publish-npm
+
+      - name: Ensure publish debug log exists for artifact
+        if: always()
+        run: |
+          mkdir -p npm-publish-debug
+          f="${GITHUB_WORKSPACE}/npm-publish-debug/debug-b1c583.log"
+          if [[ ! -s "$f" ]]; then
+            jq -nc \
+              --arg repo "${GITHUB_REPOSITORY:-}" \
+              --arg env "${GITHUB_ENVIRONMENT:-}" \
+              --arg wf "${GITHUB_WORKFLOW_REF:-}" \
+              '{sessionId:"b1c583",hypothesisId:"fallback",message:"debug log missing or empty before artifact upload",data:{github_repository:$repo,github_environment:$env,workflow_ref:$wf}}' \
+              >"$f"
+          fi
 
       - name: Upload publish debug log
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: publish-npm-debug-b1c583
-          path: .cursor/
+          path: npm-publish-debug/debug-b1c583.log
           if-no-files-found: error
