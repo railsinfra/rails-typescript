@@ -1,6 +1,6 @@
 {
   "name": "@railsinfra/rails",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "description": "The official TypeScript library for the Rails API",
   "author": "Rails <>",
   "types": "dist/index.d.ts",
