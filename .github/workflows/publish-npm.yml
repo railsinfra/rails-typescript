@@ -13,9 +13,7 @@ jobs:
     name: publish
     runs-on: ubuntu-latest
     environment: npm
-    # GitHub does not set GITHUB_ENVIRONMENT in the runner env; use github.environment context instead.
-    env:
-      NPM_PUBLISH_GITHUB_ENVIRONMENT: ${{ github.environment }}
+    # Note: github.environment is only reliably available in step env (not job-level env).
     permissions:
       contents: read
       id-token: write
@@ -44,12 +42,15 @@ jobs:
       - name: Publish to NPM
         env:
           RAILS_NPM_DEBUG_LOG: ${{ github.workspace }}/npm-publish-debug/debug-b1c583.log
+          NPM_PUBLISH_GITHUB_ENVIRONMENT: ${{ github.environment }}
         run: |
           mkdir -p "$(dirname "$RAILS_NPM_DEBUG_LOG")"
           bash ./bin/publish-npm
 
       - name: Ensure publish debug log exists for artifact
         if: always()
+        env:
+          NPM_PUBLISH_GITHUB_ENVIRONMENT: ${{ github.environment }}
         run: |
           mkdir -p npm-publish-debug
           f="${GITHUB_WORKSPACE}/npm-publish-debug/debug-b1c583.log"
