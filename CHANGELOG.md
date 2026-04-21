@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.2.4 (2026-04-21)
+
+Full Changelog: [v0.2.3...v0.2.4](https://github.com/railsinfra/rails-typescript/compare/v0.2.3...v0.2.4)
+
+### Bug Fixes
+
+* **publish:** use npm CLI for trusted publisher auth ([f22d390](https://github.com/railsinfra/rails-typescript/commit/f22d3908e5c9650e468ec5225453f3527a9535db))
+
 ## 0.2.3 (2026-04-21)
 
 Full Changelog: [v0.2.2...v0.2.3](https://github.com/railsinfra/rails-typescript/compare/v0.2.2...v0.2.3)
