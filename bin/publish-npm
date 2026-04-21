@@ -8,6 +8,48 @@ if [[ -n "${NPM_TOKEN:-}" ]]; then
   npm config set '//registry.npmjs.org/:_authToken' "$NPM_TOKEN"
 fi
 
+# #region agent log
+_debug_log_path() {
+  if [[ -n "${RAILS_NPM_DEBUG_LOG:-}" ]]; then
+    printf '%s' "$RAILS_NPM_DEBUG_LOG"
+  elif [[ -n "${GITHUB_WORKSPACE:-}" ]]; then
+    printf '%s' "${GITHUB_WORKSPACE}/.cursor/debug-b1c583.log"
+  else
+    printf '%s' "/Users/sibabale.joja/projects/personal/code/rails/.cursor/debug-b1c583.log"
+  fi
+}
+DBG_LOG="$(_debug_log_path)"
+_agent_dbg() {
+  local hypothesis_id="$1" message="$2" data_json="$3"
+  mkdir -p "$(dirname "$DBG_LOG")" 2>/dev/null || true
+  jq -nc \
+    --arg sessionId "b1c583" \
+    --arg runId "${GITHUB_RUN_ID:-local}" \
+    --arg hypothesisId "$hypothesis_id" \
+    --arg location "rails-sdks/rails-typescript/bin/publish-npm" \
+    --arg message "$message" \
+    --argjson timestamp "$(($(date +%s) * 1000))" \
+    --argjson data "$data_json" \
+    '{sessionId: $sessionId, runId: $runId, hypothesisId: $hypothesisId, location: $location, message: $message, timestamp: $timestamp, data: $data}' >>"$DBG_LOG" 2>/dev/null || true
+}
+_token_len=0
+[[ -n "${NPM_TOKEN:+x}" ]] && _token_len=${#NPM_TOKEN}
+_agent_dbg "A" "github oidc publish context" "$(jq -nc \
+  --arg github_actions "${GITHUB_ACTIONS:-}" \
+  --arg github_repository "${GITHUB_REPOSITORY:-}" \
+  --arg github_workflow "${GITHUB_WORKFLOW:-}" \
+  --arg github_workflow_ref "${GITHUB_WORKFLOW_REF:-}" \
+  --arg github_ref "${GITHUB_REF:-}" \
+  --arg github_environment "${GITHUB_ENVIRONMENT:-}" \
+  --arg github_job "${GITHUB_JOB:-}" \
+  --arg github_workflow_sha "${GITHUB_SHA:-}" \
+  --argjson npm_token_length "$_token_len" \
+  '{github_actions: $github_actions, github_repository: $github_repository, workflow: $github_workflow, workflow_ref: $github_workflow_ref, ref: $github_ref, github_environment: $github_environment, github_job: $github_job, github_sha: $github_workflow_sha, npm_token_length: $npm_token_length}')"
+WHOAMI_EC=0
+WHOAMI_OUT="$(npm whoami --registry=https://registry.npmjs.org 2>&1)" || WHOAMI_EC=$?
+_agent_dbg "B" "npm whoami before build" "$(jq -nc --argjson ec "$WHOAMI_EC" --arg out "$WHOAMI_OUT" '{exit_code: $ec, whoami_stderr_or_name: $out}')"
+# #endregion
+
 pnpm build
 cd dist
 
@@ -63,8 +105,19 @@ fi
 
 # Publish with the appropriate tag.
 # In GitHub Actions without an npm token, use trusted publishing with provenance (OIDC).
+# #region agent log
+_agent_dbg "C" "publish target" "$(jq -nc --arg pkg "$PACKAGE_NAME" --arg ver "$VERSION" --arg tag "$TAG" '{package_name: $pkg, version: $ver, dist_tag: $tag}')"
+# #endregion
 if [[ -z "${NPM_TOKEN:-}" && "${GITHUB_ACTIONS:-}" == "true" ]]; then
-  npm publish --provenance --access public --tag "$TAG"
+  # #region agent log
+  set +e
+  PUB_OUT="$(npm publish --provenance --access public --tag "$TAG" 2>&1)"
+  PUB_EC=$?
+  set -e
+  PUB_TAIL="$(printf '%s' "$PUB_OUT" | tail -c 1600 | tr '\n' ' ')"
+  _agent_dbg "D" "npm publish finished" "$(jq -nc --argjson ec "$PUB_EC" --arg tail "$PUB_TAIL" '{exit_code: $ec, output_tail: $tail}')"
+  [[ "$PUB_EC" -eq 0 ]] || exit "$PUB_EC"
+  # #endregion
 else
   npm publish --tag "$TAG"
 fi
