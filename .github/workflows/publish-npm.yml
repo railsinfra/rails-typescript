@@ -13,6 +13,9 @@ jobs:
     name: publish
     runs-on: ubuntu-latest
     environment: npm
+    # GitHub does not set GITHUB_ENVIRONMENT in the runner env; use github.environment context instead.
+    env:
+      NPM_PUBLISH_GITHUB_ENVIRONMENT: ${{ github.environment }}
     permissions:
       contents: read
       id-token: write
@@ -53,7 +56,7 @@ jobs:
           if [[ ! -s "$f" ]]; then
             jq -nc \
               --arg repo "${GITHUB_REPOSITORY:-}" \
-              --arg env "${GITHUB_ENVIRONMENT:-}" \
+              --arg env "${NPM_PUBLISH_GITHUB_ENVIRONMENT:-}" \
               --arg wf "${GITHUB_WORKFLOW_REF:-}" \
               '{sessionId:"b1c583",hypothesisId:"fallback",message:"debug log missing or empty before artifact upload",data:{github_repository:$repo,github_environment:$env,workflow_ref:$wf}}' \
               >"$f"
