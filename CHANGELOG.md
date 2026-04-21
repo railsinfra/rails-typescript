@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.2.11 (2026-04-21)
+
+Full Changelog: [v0.2.10...v0.2.11](https://github.com/railsinfra/rails-typescript/compare/v0.2.10...v0.2.11)
+
+### Bug Fixes
+
+* **package:** canonical repository URL for npm trusted publishing ([31ac5ec](https://github.com/railsinfra/rails-typescript/commit/31ac5ec54696a0496ca4f1a299822131e1a2cc99))
+
 ## 0.2.10 (2026-04-21)
 
 Full Changelog: [v0.2.9...v0.2.10](https://github.com/railsinfra/rails-typescript/compare/v0.2.9...v0.2.10)
