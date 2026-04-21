@@ -20,6 +20,11 @@ jobs:
     steps:
       - uses: actions/checkout@v6
 
+      - name: Init publish debug log
+        run: |
+          mkdir -p .cursor
+          : >.cursor/debug-b1c583.log
+
       - name: Set up Node
         uses: actions/setup-node@v4
         with:
@@ -45,5 +50,5 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: publish-npm-debug-b1c583
-          path: .cursor/debug-b1c583.log
-          if-no-files-found: warn
+          path: .cursor/
+          if-no-files-found: error
