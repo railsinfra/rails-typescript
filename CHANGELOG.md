@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.2.5 (2026-04-21)
+
+Full Changelog: [v0.2.4...v0.2.5](https://github.com/railsinfra/rails-typescript/compare/v0.2.4...v0.2.5)
+
+### Bug Fixes
+
+* **publish:** enable npm trusted publisher OIDC flow ([44ad12b](https://github.com/railsinfra/rails-typescript/commit/44ad12b5b926f0d1bc68346a8f0afebabf0d47da))
+
 ## 0.2.4 (2026-04-21)
 
 Full Changelog: [v0.2.3...v0.2.4](https://github.com/railsinfra/rails-typescript/compare/v0.2.3...v0.2.4)
