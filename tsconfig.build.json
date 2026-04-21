@@ -5,8 +5,8 @@
   "compilerOptions": {
     "rootDir": "./dist/src",
     "paths": {
-      "rails/*": ["./dist/src/*"],
-      "rails": ["./dist/src/index.ts"]
+      "railsinfra/*": ["./dist/src/*"],
+      "railsinfra": ["./dist/src/index.ts"]
     },
     "noEmit": false,
     "declaration": true,

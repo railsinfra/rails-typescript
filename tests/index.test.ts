@@ -1,10 +1,10 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { APIPromise } from 'rails/core/api-promise';
+import { APIPromise } from 'railsinfra/core/api-promise';
 
 import util from 'node:util';
-import Rails from 'rails';
-import { APIUserAbortError } from 'rails';
+import Rails from 'railsinfra';
+import { APIUserAbortError } from 'railsinfra';
 const defaultFetch = fetch;
 
 describe('instantiate client', () => {

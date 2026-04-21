@@ -1,6 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { stringifyQuery } from 'rails/internal/utils/query';
+import { stringifyQuery } from 'railsinfra/internal/utils/query';
 
 describe(stringifyQuery, () => {
   for (const [input, expected] of [
