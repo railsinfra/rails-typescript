@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.2.9 (2026-04-21)
+
+Full Changelog: [v0.2.8...v0.2.9](https://github.com/railsinfra/rails-typescript/compare/v0.2.8...v0.2.9)
+
+### Bug Fixes
+
+* **publish:** log deployment env from github.environment context ([2cb8bd8](https://github.com/railsinfra/rails-typescript/commit/2cb8bd8939c0d1ee1611157bed3ac5c0c38932c9))
+
 ## 0.2.8 (2026-04-21)
 
 Full Changelog: [v0.2.7...v0.2.8](https://github.com/railsinfra/rails-typescript/compare/v0.2.7...v0.2.8)
