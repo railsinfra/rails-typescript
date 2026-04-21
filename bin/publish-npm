@@ -62,6 +62,10 @@ cd dist
 PACKAGE_NAME="$(jq -r -e '.name' ./package.json)"
 VERSION="$(jq -r -e '.version' ./package.json)"
 
+# #region agent log
+_agent_dbg "E" "dist package.json repository" "$(jq -c '{repository: .repository}' ./package.json)"
+# #endregion
+
 # Get latest version from npm
 #
 # If the package doesn't exist, npm will return:
