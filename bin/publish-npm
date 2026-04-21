@@ -62,5 +62,9 @@ else
 fi
 
 # Publish with the appropriate tag.
-# Use npm CLI so Trusted Publisher (OIDC) auth is applied in GitHub Actions.
-npm publish --tag "$TAG"
+# In GitHub Actions without an npm token, use trusted publishing with provenance (OIDC).
+if [[ -z "${NPM_TOKEN:-}" && "${GITHUB_ACTIONS:-}" == "true" ]]; then
+  npm publish --provenance --access public --tag "$TAG"
+else
+  npm publish --tag "$TAG"
+fi
