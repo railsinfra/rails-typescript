@@ -1,6 +1,9 @@
 # This workflow is triggered when a GitHub release is created.
 # It can also be run manually to re-publish to NPM in case it failed for some reason.
 # You can run this workflow by navigating to https://www.github.com/railsinfra/rails-typescript/actions/workflows/publish-npm.yml
+#
+# Trusted publishing requires npm CLI >= 11.5.1 and Node >= 22.14.0 (see npm docs). Node 20/npm 10 can fail publishes with misleading 404s.
+# Optional: add `environment: <name>` here only if npm Trusted Publisher "Environment name" is set to the same value.
 name: Publish NPM
 on:
   workflow_dispatch:
@@ -12,8 +15,6 @@ jobs:
   publish:
     name: publish
     runs-on: ubuntu-latest
-    environment: npm
-    # Note: github.environment is only reliably available in step env (not job-level env).
     permissions:
       contents: read
       id-token: write
@@ -29,7 +30,7 @@ jobs:
       - name: Set up Node
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '24'
           registry-url: 'https://registry.npmjs.org'
 
       - name: Set up pnpm
@@ -42,15 +43,12 @@ jobs:
       - name: Publish to NPM
         env:
           RAILS_NPM_DEBUG_LOG: ${{ github.workspace }}/npm-publish-debug/debug-b1c583.log
-          NPM_PUBLISH_GITHUB_ENVIRONMENT: ${{ github.environment }}
         run: |
           mkdir -p "$(dirname "$RAILS_NPM_DEBUG_LOG")"
           bash ./bin/publish-npm
 
       - name: Ensure publish debug log exists for artifact
         if: always()
-        env:
-          NPM_PUBLISH_GITHUB_ENVIRONMENT: ${{ github.environment }}
         run: |
           mkdir -p npm-publish-debug
           f="${GITHUB_WORKSPACE}/npm-publish-debug/debug-b1c583.log"

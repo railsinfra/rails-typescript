@@ -34,6 +34,8 @@ _agent_dbg() {
 }
 _token_len=0
 [[ -n "${NPM_TOKEN:+x}" ]] && _token_len=${#NPM_TOKEN}
+_node_ver="$(node -p process.version 2>/dev/null || echo unknown)"
+_npm_ver="$(npm -v 2>/dev/null || echo unknown)"
 _agent_dbg "A" "github oidc publish context" "$(jq -nc \
   --arg github_actions "${GITHUB_ACTIONS:-}" \
   --arg github_repository "${GITHUB_REPOSITORY:-}" \
@@ -44,8 +46,10 @@ _agent_dbg "A" "github oidc publish context" "$(jq -nc \
   --arg github_environment "${NPM_PUBLISH_GITHUB_ENVIRONMENT:-}" \
   --arg github_job "${GITHUB_JOB:-}" \
   --arg github_workflow_sha "${GITHUB_SHA:-}" \
+  --arg node_version "$_node_ver" \
+  --arg npm_version "$_npm_ver" \
   --argjson npm_token_length "$_token_len" \
-  '{github_actions: $github_actions, github_repository: $github_repository, workflow: $github_workflow, workflow_ref: $github_workflow_ref, ref: $github_ref, github_environment: $github_environment, github_environment_legacy_shell_var: $github_environment_legacy, github_job: $github_job, github_sha: $github_workflow_sha, npm_token_length: $npm_token_length}')"
+  '{github_actions: $github_actions, github_repository: $github_repository, workflow: $github_workflow, workflow_ref: $github_workflow_ref, ref: $github_ref, github_environment: $github_environment, github_environment_legacy_shell_var: $github_environment_legacy, github_job: $github_job, github_sha: $github_workflow_sha, node_version: $node_version, npm_version: $npm_version, npm_token_length: $npm_token_length}')"
 WHOAMI_EC=0
 WHOAMI_OUT="$(npm whoami --registry=https://registry.npmjs.org 2>&1)" || WHOAMI_EC=$?
 _agent_dbg "B" "npm whoami before build" "$(jq -nc --argjson ec "$WHOAMI_EC" --arg out "$WHOAMI_OUT" '{exit_code: $ec, whoami_stderr_or_name: $out}')"
@@ -112,7 +116,8 @@ _agent_dbg "C" "publish target" "$(jq -nc --arg pkg "$PACKAGE_NAME" --arg ver "$
 if [[ -z "${NPM_TOKEN:-}" && "${GITHUB_ACTIONS:-}" == "true" ]]; then
   # #region agent log
   set +e
-  PUB_OUT="$(npm publish --provenance --access public --tag "$TAG" 2>&1)"
+  # npm >= 11.5.1 handles OIDC for trusted publishing; provenance is generated automatically for GitHub-hosted trusted publishes.
+  PUB_OUT="$(npm publish --access public --tag "$TAG" 2>&1)"
   PUB_EC=$?
   set -e
   PUB_TAIL="$(printf '%s' "$PUB_OUT" | tail -c 1600 | tr '\n' ' ')"
