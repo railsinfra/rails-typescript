@@ -1,58 +1,49 @@
-# Pet
+# Shared
 
 Types:
 
-- <code><a href="./src/resources/pet.ts">Pet</a></code>
-- <code><a href="./src/resources/pet.ts">PetFindByStatusResponse</a></code>
-- <code><a href="./src/resources/pet.ts">PetFindByTagsResponse</a></code>
-- <code><a href="./src/resources/pet.ts">PetUploadImageResponse</a></code>
+- <code><a href="./src/resources/shared.ts">Transaction</a></code>
 
-Methods:
-
-- <code title="post /pet">client.pet.<a href="./src/resources/pet.ts">create</a>({ ...params }) -> Pet</code>
-- <code title="get /pet/{petId}">client.pet.<a href="./src/resources/pet.ts">retrieve</a>(petID) -> Pet</code>
-- <code title="put /pet">client.pet.<a href="./src/resources/pet.ts">update</a>({ ...params }) -> Pet</code>
-- <code title="delete /pet/{petId}">client.pet.<a href="./src/resources/pet.ts">delete</a>(petID) -> void</code>
-- <code title="get /pet/findByStatus">client.pet.<a href="./src/resources/pet.ts">findByStatus</a>({ ...params }) -> PetFindByStatusResponse</code>
-- <code title="get /pet/findByTags">client.pet.<a href="./src/resources/pet.ts">findByTags</a>({ ...params }) -> PetFindByTagsResponse</code>
-- <code title="post /pet/{petId}">client.pet.<a href="./src/resources/pet.ts">updateWithFormData</a>(petID, { ...params }) -> void</code>
-- <code title="post /pet/{petId}/uploadImage">client.pet.<a href="./src/resources/pet.ts">uploadImage</a>(petID, body, { ...params }) -> PetUploadImageResponse</code>
-
-# Store
+# Users
 
 Types:
 
-- <code><a href="./src/resources/store/store.ts">StoreListInventoryResponse</a></code>
+- <code><a href="./src/resources/users.ts">UserCreateResponse</a></code>
 
 Methods:
 
-- <code title="get /store/inventory">client.store.<a href="./src/resources/store/store.ts">listInventory</a>() -> StoreListInventoryResponse</code>
+- <code title="post /api/v1/users">client.users.<a href="./src/resources/users.ts">create</a>({ ...params }) -> UserCreateResponse</code>
 
-## Order
+# Accounts
 
 Types:
 
-- <code><a href="./src/resources/store/order.ts">Order</a></code>
+- <code><a href="./src/resources/accounts.ts">Account</a></code>
+- <code><a href="./src/resources/accounts.ts">AccountListResponse</a></code>
+- <code><a href="./src/resources/accounts.ts">AccountDepositResponse</a></code>
+- <code><a href="./src/resources/accounts.ts">AccountTransferResponse</a></code>
+- <code><a href="./src/resources/accounts.ts">AccountWithdrawResponse</a></code>
 
 Methods:
 
-- <code title="post /store/order">client.store.order.<a href="./src/resources/store/order.ts">create</a>({ ...params }) -> Order</code>
-- <code title="get /store/order/{orderId}">client.store.order.<a href="./src/resources/store/order.ts">retrieve</a>(orderID) -> Order</code>
-- <code title="delete /store/order/{orderId}">client.store.order.<a href="./src/resources/store/order.ts">delete</a>(orderID) -> void</code>
+- <code title="post /api/v1/accounts">client.accounts.<a href="./src/resources/accounts.ts">create</a>({ ...params }) -> Account</code>
+- <code title="get /api/v1/accounts/{id}">client.accounts.<a href="./src/resources/accounts.ts">retrieve</a>(id) -> Account</code>
+- <code title="get /api/v1/accounts">client.accounts.<a href="./src/resources/accounts.ts">list</a>({ ...params }) -> AccountListResponse</code>
+- <code title="delete /api/v1/accounts/{id}">client.accounts.<a href="./src/resources/accounts.ts">close</a>(id) -> Account</code>
+- <code title="post /api/v1/accounts/{id}/deposit">client.accounts.<a href="./src/resources/accounts.ts">deposit</a>(id, { ...params }) -> AccountDepositResponse</code>
+- <code title="post /api/v1/accounts/{id}/transfer">client.accounts.<a href="./src/resources/accounts.ts">transfer</a>(id, { ...params }) -> AccountTransferResponse</code>
+- <code title="patch /api/v1/accounts/{id}">client.accounts.<a href="./src/resources/accounts.ts">updateStatus</a>(id, { ...params }) -> Account</code>
+- <code title="post /api/v1/accounts/{id}/withdraw">client.accounts.<a href="./src/resources/accounts.ts">withdraw</a>(id, { ...params }) -> AccountWithdrawResponse</code>
 
-# User
+# Transactions
 
 Types:
 
-- <code><a href="./src/resources/user.ts">User</a></code>
-- <code><a href="./src/resources/user.ts">UserLoginResponse</a></code>
+- <code><a href="./src/resources/transactions.ts">TransactionListResponse</a></code>
+- <code><a href="./src/resources/transactions.ts">TransactionListByAccountResponse</a></code>
 
 Methods:
 
-- <code title="post /user">client.user.<a href="./src/resources/user.ts">create</a>({ ...params }) -> User</code>
-- <code title="get /user/{username}">client.user.<a href="./src/resources/user.ts">retrieve</a>(username) -> User</code>
-- <code title="put /user/{username}">client.user.<a href="./src/resources/user.ts">update</a>(existingUsername, { ...params }) -> void</code>
-- <code title="delete /user/{username}">client.user.<a href="./src/resources/user.ts">delete</a>(username) -> void</code>
-- <code title="post /user/createWithList">client.user.<a href="./src/resources/user.ts">createWithList</a>([ ...body ]) -> User</code>
-- <code title="get /user/login">client.user.<a href="./src/resources/user.ts">login</a>({ ...params }) -> string</code>
-- <code title="get /user/logout">client.user.<a href="./src/resources/user.ts">logout</a>() -> void</code>
+- <code title="get /api/v1/transactions/{id}">client.transactions.<a href="./src/resources/transactions.ts">retrieve</a>(id) -> Transaction</code>
+- <code title="get /api/v1/transactions">client.transactions.<a href="./src/resources/transactions.ts">list</a>({ ...params }) -> TransactionListResponse</code>
+- <code title="get /api/v1/accounts/{account_id}/transactions">client.transactions.<a href="./src/resources/transactions.ts">listByAccount</a>(accountID, { ...params }) -> TransactionListByAccountResponse</code>

@@ -11,35 +11,34 @@ import type { APIResponseProps } from './internal/parse';
 import { getPlatformHeaders } from './internal/detect-platform';
 import * as Shims from './internal/shims';
 import * as Opts from './internal/request-options';
-import * as qs from './internal/qs';
+import { stringifyQuery } from './internal/utils/query';
 import { VERSION } from './version';
 import * as Errors from './core/error';
 import * as Uploads from './core/uploads';
 import * as API from './resources/index';
 import { APIPromise } from './core/api-promise';
 import {
-  Pet,
-  PetCreateParams,
-  PetFindByStatusParams,
-  PetFindByStatusResponse,
-  PetFindByTagsParams,
-  PetFindByTagsResponse,
-  PetResource,
-  PetUpdateParams,
-  PetUpdateWithFormDataParams,
-  PetUploadImageParams,
-  PetUploadImageResponse,
-} from './resources/pet';
+  Account,
+  AccountCreateParams,
+  AccountDepositParams,
+  AccountDepositResponse,
+  AccountListParams,
+  AccountListResponse,
+  AccountTransferParams,
+  AccountTransferResponse,
+  AccountUpdateStatusParams,
+  AccountWithdrawParams,
+  AccountWithdrawResponse,
+  Accounts,
+} from './resources/accounts';
 import {
-  User,
-  UserCreateParams,
-  UserCreateWithListParams,
-  UserLoginParams,
-  UserLoginResponse,
-  UserResource,
-  UserUpdateParams,
-} from './resources/user';
-import { Store, StoreListInventoryResponse } from './resources/store/store';
+  TransactionListByAccountParams,
+  TransactionListByAccountResponse,
+  TransactionListParams,
+  TransactionListResponse,
+  Transactions,
+} from './resources/transactions';
+import { UserCreateParams, UserCreateResponse, Users } from './resources/users';
 import { type Fetch } from './internal/builtin-types';
 import { HeadersLike, NullableHeaders, buildHeaders } from './internal/headers';
 import { FinalRequestOptions, RequestOptions } from './internal/request-options';
@@ -53,11 +52,26 @@ import {
 } from './internal/utils/log';
 import { isEmptyObj } from './internal/utils/values';
 
+const environments = {
+  staging: 'https://accounts-service-staging.up.railway.app',
+  production: 'https://accounts-service-production.up.railway.app',
+};
+type Environment = keyof typeof environments;
+
 export interface ClientOptions {
   /**
    * Defaults to process.env['RAILS_API_KEY'].
    */
   apiKey?: string | undefined;
+
+  /**
+   * Specifies the environment to use for the API.
+   *
+   * Each environment maps to a different base URL:
+   * - `staging` corresponds to `https://accounts-service-staging.up.railway.app`
+   * - `production` corresponds to `https://accounts-service-production.up.railway.app`
+   */
+  environment?: Environment | undefined;
 
   /**
    * Override the default base URL for the API, e.g., "https://api.example.com/v2/"
@@ -150,7 +164,8 @@ export class Rails {
    * API Client for interfacing with the Rails API.
    *
    * @param {string | undefined} [opts.apiKey=process.env['RAILS_API_KEY'] ?? undefined]
-   * @param {string} [opts.baseURL=process.env['RAILS_BASE_URL'] ?? https://petstore3.swagger.io/api/v3] - Override the default base URL for the API.
+   * @param {Environment} [opts.environment=staging] - Specifies the environment URL to use for the API.
+   * @param {string} [opts.baseURL=process.env['RAILS_BASE_URL'] ?? https://accounts-service-staging.up.railway.app] - Override the default base URL for the API.
    * @param {number} [opts.timeout=1 minute] - The maximum amount of time (in milliseconds) the client will wait for a response before timing out.
    * @param {MergedRequestInit} [opts.fetchOptions] - Additional `RequestInit` options to be passed to `fetch` calls.
    * @param {Fetch} [opts.fetch] - Specify a custom `fetch` function implementation.
@@ -172,10 +187,17 @@ export class Rails {
     const options: ClientOptions = {
       apiKey,
       ...opts,
-      baseURL: baseURL || `https://petstore3.swagger.io/api/v3`,
+      baseURL,
+      environment: opts.environment ?? 'staging',
     };
 
-    this.baseURL = options.baseURL!;
+    if (baseURL && opts.environment) {
+      throw new Errors.RailsError(
+        'Ambiguous URL; The `baseURL` option (or RAILS_BASE_URL env var) and the `environment` option are given. If you want to use the environment you must pass baseURL: null',
+      );
+    }
+
+    this.baseURL = options.baseURL || environments[options.environment || 'staging'];
     this.timeout = options.timeout ?? Rails.DEFAULT_TIMEOUT /* 1 minute */;
     this.logger = options.logger ?? console;
     const defaultLogLevel = 'warn';
@@ -201,7 +223,8 @@ export class Rails {
   withOptions(options: Partial<ClientOptions>): this {
     const client = new (this.constructor as any as new (props: ClientOptions) => typeof this)({
       ...this._options,
-      baseURL: this.baseURL,
+      environment: options.environment ? options.environment : undefined,
+      baseURL: options.environment ? undefined : this.baseURL,
       maxRetries: this.maxRetries,
       timeout: this.timeout,
       logger: this.logger,
@@ -218,7 +241,7 @@ export class Rails {
    * Check whether the base URL is set to its default.
    */
   #baseURLOverridden(): boolean {
-    return this.baseURL !== 'https://petstore3.swagger.io/api/v3';
+    return this.baseURL !== environments[this._options.environment || 'staging'];
   }
 
   protected defaultQuery(): Record<string, string | undefined> | undefined {
@@ -230,11 +253,14 @@ export class Rails {
   }
 
   protected async authHeaders(opts: FinalRequestOptions): Promise<NullableHeaders | undefined> {
-    return buildHeaders([{ api_key: this.apiKey }]);
+    return buildHeaders([{ 'X-API-Key': this.apiKey }]);
   }
 
-  protected stringifyQuery(query: Record<string, unknown>): string {
-    return qs.stringify(query, { arrayFormat: 'comma' });
+  /**
+   * Basic re-implementation of `qs.stringify` for primitive types.
+   */
+  protected stringifyQuery(query: object | Record<string, unknown>): string {
+    return stringifyQuery(query);
   }
 
   private getUserAgent(): string {
@@ -266,12 +292,13 @@ export class Rails {
       : new URL(baseURL + (baseURL.endsWith('/') && path.startsWith('/') ? path.slice(1) : path));
 
     const defaultQuery = this.defaultQuery();
-    if (!isEmptyObj(defaultQuery)) {
-      query = { ...defaultQuery, ...query };
+    const pathQuery = Object.fromEntries(url.searchParams);
+    if (!isEmptyObj(defaultQuery) || !isEmptyObj(pathQuery)) {
+      query = { ...pathQuery, ...defaultQuery, ...query };
     }
 
     if (typeof query === 'object' && query && !Array.isArray(query)) {
-      url.search = this.stringifyQuery(query as Record<string, unknown>);
+      url.search = this.stringifyQuery(query);
     }
 
     return url.toString();
@@ -455,7 +482,7 @@ export class Rails {
       loggerFor(this).info(`${responseInfo} - ${retryMessage}`);
 
       const errText = await response.text().catch((err: any) => castToError(err).message);
-      const errJSON = safeJSON(errText);
+      const errJSON = safeJSON(errText) as any;
       const errMessage = errJSON ? undefined : errText;
 
       loggerFor(this).debug(
@@ -496,9 +523,10 @@ export class Rails {
     controller: AbortController,
   ): Promise<Response> {
     const { signal, method, ...options } = init || {};
-    if (signal) signal.addEventListener('abort', () => controller.abort());
+    const abort = this._makeAbort(controller);
+    if (signal) signal.addEventListener('abort', abort, { once: true });
 
-    const timeout = setTimeout(() => controller.abort(), ms);
+    const timeout = setTimeout(abort, ms);
 
     const isReadableBody =
       ((globalThis as any).ReadableStream && options.body instanceof (globalThis as any).ReadableStream) ||
@@ -575,9 +603,9 @@ export class Rails {
       }
     }
 
-    // If the API asks us to wait a certain amount of time (and it's a reasonable amount),
-    // just do what it says, but otherwise calculate a default
-    if (!(timeoutMillis && 0 <= timeoutMillis && timeoutMillis < 60 * 1000)) {
+    // If the API asks us to wait a certain amount of time, just do what it
+    // says, but otherwise calculate a default
+    if (timeoutMillis === undefined) {
       const maxRetries = options.maxRetries ?? this.maxRetries;
       timeoutMillis = this.calculateDefaultRetryTimeoutMillis(retriesRemaining, maxRetries);
     }
@@ -665,6 +693,12 @@ export class Rails {
     return headers.values;
   }
 
+  private _makeAbort(controller: AbortController) {
+    // note: we can't just inline this method inside `fetchWithTimeout()` because then the closure
+    //       would capture all request options, and cause a memory leak.
+    return () => controller.abort();
+  }
+
   private buildBody({ options: { body, headers: rawHeaders } }: { options: FinalRequestOptions }): {
     bodyHeaders: HeadersLike;
     body: BodyInit | undefined;
@@ -697,6 +731,14 @@ export class Rails {
         (Symbol.iterator in body && 'next' in body && typeof body.next === 'function'))
     ) {
       return { bodyHeaders: undefined, body: Shims.ReadableStreamFrom(body as AsyncIterable<Uint8Array>) };
+    } else if (
+      typeof body === 'object' &&
+      headers.values.get('content-type') === 'application/x-www-form-urlencoded'
+    ) {
+      return {
+        bodyHeaders: { 'content-type': 'application/x-www-form-urlencoded' },
+        body: this.stringifyQuery(body),
+      };
     } else {
       return this.#encoder({ body, headers });
     }
@@ -721,41 +763,55 @@ export class Rails {
 
   static toFile = Uploads.toFile;
 
-  pet: API.PetResource = new API.PetResource(this);
-  store: API.Store = new API.Store(this);
-  user: API.UserResource = new API.UserResource(this);
+  /**
+   * Users
+   */
+  users: API.Users = new API.Users(this);
+  /**
+   * Accounts
+   */
+  accounts: API.Accounts = new API.Accounts(this);
+  /**
+   * Transactions
+   */
+  transactions: API.Transactions = new API.Transactions(this);
 }
 
-Rails.PetResource = PetResource;
-Rails.Store = Store;
-Rails.UserResource = UserResource;
+Rails.Users = Users;
+Rails.Accounts = Accounts;
+Rails.Transactions = Transactions;
 
 export declare namespace Rails {
   export type RequestOptions = Opts.RequestOptions;
 
   export {
-    PetResource as PetResource,
-    type Pet as Pet,
-    type PetFindByStatusResponse as PetFindByStatusResponse,
-    type PetFindByTagsResponse as PetFindByTagsResponse,
-    type PetUploadImageResponse as PetUploadImageResponse,
-    type PetCreateParams as PetCreateParams,
-    type PetUpdateParams as PetUpdateParams,
-    type PetFindByStatusParams as PetFindByStatusParams,
-    type PetFindByTagsParams as PetFindByTagsParams,
-    type PetUpdateWithFormDataParams as PetUpdateWithFormDataParams,
-    type PetUploadImageParams as PetUploadImageParams,
+    Users as Users,
+    type UserCreateResponse as UserCreateResponse,
+    type UserCreateParams as UserCreateParams,
   };
-
-  export { Store as Store, type StoreListInventoryResponse as StoreListInventoryResponse };
 
   export {
-    UserResource as UserResource,
-    type User as User,
-    type UserLoginResponse as UserLoginResponse,
-    type UserCreateParams as UserCreateParams,
-    type UserUpdateParams as UserUpdateParams,
-    type UserCreateWithListParams as UserCreateWithListParams,
-    type UserLoginParams as UserLoginParams,
+    Accounts as Accounts,
+    type Account as Account,
+    type AccountListResponse as AccountListResponse,
+    type AccountDepositResponse as AccountDepositResponse,
+    type AccountTransferResponse as AccountTransferResponse,
+    type AccountWithdrawResponse as AccountWithdrawResponse,
+    type AccountCreateParams as AccountCreateParams,
+    type AccountListParams as AccountListParams,
+    type AccountDepositParams as AccountDepositParams,
+    type AccountTransferParams as AccountTransferParams,
+    type AccountUpdateStatusParams as AccountUpdateStatusParams,
+    type AccountWithdrawParams as AccountWithdrawParams,
   };
+
+  export {
+    Transactions as Transactions,
+    type TransactionListResponse as TransactionListResponse,
+    type TransactionListByAccountResponse as TransactionListByAccountResponse,
+    type TransactionListParams as TransactionListParams,
+    type TransactionListByAccountParams as TransactionListByAccountParams,
+  };
+
+  export type Transaction = API.Transaction;
 }
