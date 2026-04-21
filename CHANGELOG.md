@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.2.7 (2026-04-21)
+
+Full Changelog: [v0.2.6...v0.2.7](https://github.com/railsinfra/rails-typescript/compare/v0.2.6...v0.2.7)
+
+### Chores
+
+* **publish:** add CI debug log for npm trusted publisher ([ee50b1c](https://github.com/railsinfra/rails-typescript/commit/ee50b1c0e3a74fd89c532bd692c772b0efddaefa))
+
 ## 0.2.6 (2026-04-21)
 
 Full Changelog: [v0.2.5...v0.2.6](https://github.com/railsinfra/rails-typescript/compare/v0.2.5...v0.2.6)
