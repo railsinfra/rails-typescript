@@ -8,8 +8,8 @@
     "moduleResolution": "node",
     "esModuleInterop": true,
     "paths": {
-      "rails/*": ["./src/*"],
-      "rails": ["./src/index.ts"]
+      "railsinfra/*": ["./src/*"],
+      "railsinfra": ["./src/index.ts"]
     },
     "noEmit": true,
 

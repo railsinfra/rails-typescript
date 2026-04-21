@@ -1,5 +1,5 @@
-import { multipartFormRequestOptions, createForm } from 'rails/internal/uploads';
-import { toFile } from 'rails/core/uploads';
+import { multipartFormRequestOptions, createForm } from 'railsinfra/internal/uploads';
+import { toFile } from 'railsinfra/core/uploads';
 
 describe('form data validation', () => {
   test('valid values do not error', async () => {

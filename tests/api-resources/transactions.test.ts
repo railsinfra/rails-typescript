@@ -1,6 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import Rails from 'rails';
+import Rails from 'railsinfra';
 
 const client = new Rails({
   apiKey: 'My API Key',
