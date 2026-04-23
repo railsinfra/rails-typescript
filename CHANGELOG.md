@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.2.12 (2026-04-23)
+
+Full Changelog: [v0.2.11...v0.2.12](https://github.com/railsinfra/rails-typescript/compare/v0.2.11...v0.2.12)
+
+### Chores
+
+* **internal:** more robust bootstrap script ([5e5a313](https://github.com/railsinfra/rails-typescript/commit/5e5a313f4ace70b819302dd9b196b43e05d353fe))
+
 ## 0.2.11 (2026-04-21)
 
 Full Changelog: [v0.2.10...v0.2.11](https://github.com/railsinfra/rails-typescript/compare/v0.2.10...v0.2.11)
