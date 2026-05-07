@@ -2,7 +2,7 @@
 # It can also be run manually to re-publish to NPM in case it failed for some reason.
 # You can run this workflow by navigating to https://github.com/railsinfra/rails-typescript/actions/workflows/publish-npm.yml
 #
-# Trusted publishing requires npm CLI >= 11.5.1 and Node >= 22.14.0 (see npm docs). Node 20/npm 10 can fail publishes with misleading 404s.
+# Trusted publishing requires npm CLI >= 11.5.1 and Node >= 22.14.0 (see npm docs).
 # Optional: add `environment: <name>` here only if npm Trusted Publisher "Environment name" is set to the same value.
 name: Publish NPM
 on:
