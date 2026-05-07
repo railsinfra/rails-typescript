@@ -129,5 +129,5 @@ if [[ -z "${NPM_TOKEN:-}" && "${GITHUB_ACTIONS:-}" == "true" ]]; then
   [[ "$PUB_EC" -eq 0 ]] || exit "$PUB_EC"
   # #endregion
 else
-  npm publish --tag "$TAG"
+  npm publish --access public --tag "$TAG"
 fi
