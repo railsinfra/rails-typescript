@@ -43,6 +43,7 @@ jobs:
       - name: Publish to NPM
         env:
           RAILS_NPM_DEBUG_LOG: ${{ github.workspace }}/npm-publish-debug/debug-b1c583.log
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: |
           mkdir -p "$(dirname "$RAILS_NPM_DEBUG_LOG")"
           bash ./bin/publish-npm
