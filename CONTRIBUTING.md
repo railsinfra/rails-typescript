@@ -49,18 +49,18 @@ Alternatively, to link a local copy of the repo:
 
 ```sh
 # Clone
-$ git clone https://www.github.com/railsinfra/rails-typescript
+$ git clone https://github.com/railsinfra/rails-typescript
 $ cd rails-typescript
 
 # With yarn
 $ yarn link
 $ cd ../my-package
-$ yarn link railsinfra
+$ yarn link @railsinfra/rails
 
 # With pnpm
 $ pnpm link --global
 $ cd ../my-package
-$ pnpm link --global railsinfra
+$ pnpm link --global @railsinfra/rails
 ```
 
 ## Running tests
@@ -93,7 +93,7 @@ the changes aren't made through the automated pipeline, you may want to make rel
 
 ### Publish with a GitHub workflow
 
-You can release to package managers by using [the `Publish NPM` GitHub action](https://www.github.com/railsinfra/rails-typescript/actions/workflows/publish-npm.yml). This requires a setup organization or repository secret to be set up.
+You can release to package managers by using [the `Publish NPM` GitHub action](https://github.com/railsinfra/rails-typescript/actions/workflows/publish-npm.yml). This requires a setup organization or repository secret to be set up.
 
 ### Publish manually
 
