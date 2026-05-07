@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.3.4 (2026-05-07)
+
+Full Changelog: [v0.3.3...v0.3.4](https://github.com/railsinfra/rails-typescript/compare/v0.3.3...v0.3.4)
+
+### Bug Fixes
+
+* **publish:** add OTP support for granular token authentication ([3caac17](https://github.com/railsinfra/rails-typescript/commit/3caac17034c45201d238e2755107f1796ddc1ce8))
+* **publish:** simplify token authentication with 2FA bypass ([bb3d2a1](https://github.com/railsinfra/rails-typescript/commit/bb3d2a19dc78f6c0f544d0036e7fe6fd80d42cc8))
+
 ## 0.3.3 (2026-05-07)
 
 Full Changelog: [v0.3.2...v0.3.3](https://github.com/railsinfra/rails-typescript/compare/v0.3.2...v0.3.3)
