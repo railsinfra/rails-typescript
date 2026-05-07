@@ -1,5 +1,40 @@
 # Changelog
 
+## 0.3.2 (2026-05-07)
+
+Full Changelog: [v0.3.1...v0.3.2](https://github.com/railsinfra/rails-typescript/compare/v0.3.1...v0.3.2)
+
+### Bug Fixes
+
+* **ci:** remove inaccurate Node version requirement comment ([904beed](https://github.com/railsinfra/rails-typescript/commit/904beedee6af7319f67ebf9c073f828c2daebd5b))
+
+## 0.3.1 (2026-05-07)
+
+Full Changelog: [v0.3.0...v0.3.1](https://github.com/railsinfra/rails-typescript/compare/v0.3.0...v0.3.1)
+
+## 0.3.0 (2026-05-01)
+
+Full Changelog: [v0.2.11...v0.3.0](https://github.com/railsinfra/rails-typescript/compare/v0.2.11...v0.3.0)
+
+### Features
+
+* support setting headers via env ([a14e6ac](https://github.com/railsinfra/rails-typescript/commit/a14e6ac3ea9cc85a5c01827c20fee4df87726ba8))
+
+
+### Chores
+
+* **format:** run eslint and prettier separately ([95695e5](https://github.com/railsinfra/rails-typescript/commit/95695e59ab44af5d6dfeb9d2d2b6828c50b9ba0c))
+* **internal:** codegen related update ([885427c](https://github.com/railsinfra/rails-typescript/commit/885427ca84f5e766406dcaa3fae4cd2b948eccff))
+* **internal:** more robust bootstrap script ([5e5a313](https://github.com/railsinfra/rails-typescript/commit/5e5a313f4ace70b819302dd9b196b43e05d353fe))
+
+## 0.2.11 (2026-04-21)
+
+Full Changelog: [v0.2.10...v0.2.11](https://github.com/railsinfra/rails-typescript/compare/v0.2.10...v0.2.11)
+
+### Bug Fixes
+
+* **package:** canonical repository URL for npm trusted publishing ([31ac5ec](https://github.com/railsinfra/rails-typescript/commit/31ac5ec54696a0496ca4f1a299822131e1a2cc99))
+
 ## 0.2.10 (2026-04-21)
 
 Full Changelog: [v0.2.9...v0.2.10](https://github.com/railsinfra/rails-typescript/compare/v0.2.9...v0.2.10)
