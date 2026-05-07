@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.3.2 (2026-05-07)
+
+Full Changelog: [v0.3.1...v0.3.2](https://github.com/railsinfra/rails-typescript/compare/v0.3.1...v0.3.2)
+
+### Bug Fixes
+
+* **ci:** remove inaccurate Node version requirement comment ([904beed](https://github.com/railsinfra/rails-typescript/commit/904beedee6af7319f67ebf9c073f828c2daebd5b))
+
 ## 0.3.1 (2026-05-07)
 
 Full Changelog: [v0.3.0...v0.3.1](https://github.com/railsinfra/rails-typescript/compare/v0.3.0...v0.3.1)
