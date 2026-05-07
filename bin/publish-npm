@@ -121,12 +121,7 @@ if [[ -z "${NPM_TOKEN:-}" && "${GITHUB_ACTIONS:-}" == "true" ]]; then
   # #region agent log
   set +e
   # npm >= 11.5.1 handles OIDC for trusted publishing; provenance is generated automatically for GitHub-hosted trusted publishes.
-  # Add OTP if provided for accounts with 2FA
-  if [[ -n "${NPM_OTP:-}" ]]; then
-    PUB_OUT="$(npm publish --access public --tag "$TAG" --otp "$NPM_OTP" 2>&1)"
-  else
-    PUB_OUT="$(npm publish --access public --tag "$TAG" 2>&1)"
-  fi
+  PUB_OUT="$(npm publish --access public --tag "$TAG" 2>&1)"
   PUB_EC=$?
   set -e
   PUB_TAIL="$(printf '%s' "$PUB_OUT" | tail -c 1600 | tr '\n' ' ')"
@@ -134,10 +129,5 @@ if [[ -z "${NPM_TOKEN:-}" && "${GITHUB_ACTIONS:-}" == "true" ]]; then
   [[ "$PUB_EC" -eq 0 ]] || exit "$PUB_EC"
   # #endregion
 else
-  # Add OTP if provided for accounts with 2FA
-  if [[ -n "${NPM_OTP:-}" ]]; then
-    npm publish --access public --tag "$TAG" --otp "$NPM_OTP"
-  else
-    npm publish --access public --tag "$TAG"
-  fi
+  npm publish --access public --tag "$TAG"
 fi
