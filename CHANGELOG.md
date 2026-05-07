@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.3.3 (2026-05-07)
+
+Full Changelog: [v0.3.2...v0.3.3](https://github.com/railsinfra/rails-typescript/compare/v0.3.2...v0.3.3)
+
+### Bug Fixes
+
+* **publish:** configure manual npm token publishing ([26de06e](https://github.com/railsinfra/rails-typescript/commit/26de06e560292f131fa657f3387ef002d4b89a8f))
+
 ## 0.3.2 (2026-05-07)
 
 Full Changelog: [v0.3.1...v0.3.2](https://github.com/railsinfra/rails-typescript/compare/v0.3.1...v0.3.2)
