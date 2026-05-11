@@ -1,5 +1,20 @@
 # Changelog
 
+## 0.4.0 (2026-05-11)
+
+Full Changelog: [v0.3.4...v0.4.0](https://github.com/railsinfra/rails-typescript/compare/v0.3.4...v0.4.0)
+
+### Features
+
+* **api:** api update ([27d7056](https://github.com/railsinfra/rails-typescript/commit/27d705663929301a7f228cc7b11318308ddd3c4e))
+* **api:** manual updates ([428a75a](https://github.com/railsinfra/rails-typescript/commit/428a75a36b2833dbddda3d5ac6cb054025208406))
+* **api:** manual updates ([31ba886](https://github.com/railsinfra/rails-typescript/commit/31ba8865e14d7cf94750ef915e98ab3c9260329f))
+
+
+### Chores
+
+* redact api-key headers in debug logs ([e2b40f7](https://github.com/railsinfra/rails-typescript/commit/e2b40f75157e66011860161268da07b91b225cd7))
+
 ## 0.3.4 (2026-05-07)
 
 Full Changelog: [v0.3.3...v0.3.4](https://github.com/railsinfra/rails-typescript/compare/v0.3.3...v0.3.4)
