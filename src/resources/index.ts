@@ -15,7 +15,6 @@ export {
   type AccountUpdateStatusParams,
   type AccountWithdrawParams,
 } from './accounts';
-export { SDKSmokeTests, type SDKSmokeTestPingResponse } from './sdk-smoke-tests';
 export {
   Transactions,
   type TransactionListResponse,
