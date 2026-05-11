@@ -132,9 +132,12 @@ export interface AccountWithdrawResponse {
 export interface AccountCreateParams {
   account_type: 'checking' | 'saving';
 
-  user_id: string;
+  /**
+   * Three-letter uppercase ISO currency code, for example USD or ZAR.
+   */
+  currency: string;
 
-  currency?: string;
+  user_id: string;
 
   environment?: string | null;
 

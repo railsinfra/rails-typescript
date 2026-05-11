@@ -31,7 +31,6 @@ import {
   AccountWithdrawResponse,
   Accounts,
 } from './resources/accounts';
-import { SDKSmokeTestPingResponse, SDKSmokeTests } from './resources/sdk-smoke-tests';
 import {
   TransactionListByAccountParams,
   TransactionListByAccountResponse,
@@ -788,13 +787,11 @@ export class Rails {
    * Transactions
    */
   transactions: API.Transactions = new API.Transactions(this);
-  sdkSmokeTests: API.SDKSmokeTests = new API.SDKSmokeTests(this);
 }
 
 Rails.Users = Users;
 Rails.Accounts = Accounts;
 Rails.Transactions = Transactions;
-Rails.SDKSmokeTests = SDKSmokeTests;
 
 export declare namespace Rails {
   export type RequestOptions = Opts.RequestOptions;
@@ -827,8 +824,6 @@ export declare namespace Rails {
     type TransactionListParams as TransactionListParams,
     type TransactionListByAccountParams as TransactionListByAccountParams,
   };
-
-  export { SDKSmokeTests as SDKSmokeTests, type SDKSmokeTestPingResponse as SDKSmokeTestPingResponse };
 
   export type Transaction = API.Transaction;
 }
