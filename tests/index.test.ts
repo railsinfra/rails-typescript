@@ -322,13 +322,13 @@ describe('instantiate client', () => {
     test('empty env variable', () => {
       process.env['RAILS_BASE_URL'] = ''; // empty
       const client = new Rails({ apiKey: 'My API Key' });
-      expect(client.baseURL).toEqual('https://accounts-service-staging.up.railway.app');
+      expect(client.baseURL).toEqual('https://rails-client-server-staging.up.railway.app');
     });
 
     test('blank env variable', () => {
       process.env['RAILS_BASE_URL'] = '  '; // blank
       const client = new Rails({ apiKey: 'My API Key' });
-      expect(client.baseURL).toEqual('https://accounts-service-staging.up.railway.app');
+      expect(client.baseURL).toEqual('https://rails-client-server-staging.up.railway.app');
     });
 
     test('env variable with environment', () => {
@@ -345,7 +345,7 @@ describe('instantiate client', () => {
         baseURL: null,
         environment: 'staging',
       });
-      expect(client.baseURL).toEqual('https://accounts-service-staging.up.railway.app');
+      expect(client.baseURL).toEqual('https://rails-client-server-staging.up.railway.app');
     });
 
     test('in request options', () => {
