@@ -15,6 +15,7 @@ export {
   type AccountUpdateStatusParams,
   type AccountWithdrawParams,
 } from './accounts';
+export { AuditEvents, type AuditEventListResponse, type AuditEventListParams } from './audit-events';
 export {
   Transactions,
   type TransactionListResponse,

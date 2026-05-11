@@ -31,6 +31,7 @@ import {
   AccountWithdrawResponse,
   Accounts,
 } from './resources/accounts';
+import { AuditEventListParams, AuditEventListResponse, AuditEvents } from './resources/audit-events';
 import {
   TransactionListByAccountParams,
   TransactionListByAccountResponse,
@@ -53,8 +54,8 @@ import {
 import { isEmptyObj } from './internal/utils/values';
 
 const environments = {
-  staging: 'https://accounts-service-staging.up.railway.app',
-  production: 'https://accounts-service-production.up.railway.app',
+  staging: 'https://rails-client-server-staging.up.railway.app',
+  production: 'https://rails-client-server-production.up.railway.app',
 };
 type Environment = keyof typeof environments;
 
@@ -68,8 +69,8 @@ export interface ClientOptions {
    * Specifies the environment to use for the API.
    *
    * Each environment maps to a different base URL:
-   * - `staging` corresponds to `https://accounts-service-staging.up.railway.app`
-   * - `production` corresponds to `https://accounts-service-production.up.railway.app`
+   * - `staging` corresponds to `https://rails-client-server-staging.up.railway.app`
+   * - `production` corresponds to `https://rails-client-server-production.up.railway.app`
    */
   environment?: Environment | undefined;
 
@@ -165,7 +166,7 @@ export class Rails {
    *
    * @param {string | undefined} [opts.apiKey=process.env['RAILS_API_KEY'] ?? undefined]
    * @param {Environment} [opts.environment=staging] - Specifies the environment URL to use for the API.
-   * @param {string} [opts.baseURL=process.env['RAILS_BASE_URL'] ?? https://accounts-service-staging.up.railway.app] - Override the default base URL for the API.
+   * @param {string} [opts.baseURL=process.env['RAILS_BASE_URL'] ?? https://rails-client-server-staging.up.railway.app] - Override the default base URL for the API.
    * @param {number} [opts.timeout=1 minute] - The maximum amount of time (in milliseconds) the client will wait for a response before timing out.
    * @param {MergedRequestInit} [opts.fetchOptions] - Additional `RequestInit` options to be passed to `fetch` calls.
    * @param {Fetch} [opts.fetch] - Specify a custom `fetch` function implementation.
@@ -787,11 +788,16 @@ export class Rails {
    * Transactions
    */
   transactions: API.Transactions = new API.Transactions(this);
+  /**
+   * Audit events
+   */
+  auditEvents: API.AuditEvents = new API.AuditEvents(this);
 }
 
 Rails.Users = Users;
 Rails.Accounts = Accounts;
 Rails.Transactions = Transactions;
+Rails.AuditEvents = AuditEvents;
 
 export declare namespace Rails {
   export type RequestOptions = Opts.RequestOptions;
@@ -823,6 +829,12 @@ export declare namespace Rails {
     type TransactionListByAccountResponse as TransactionListByAccountResponse,
     type TransactionListParams as TransactionListParams,
     type TransactionListByAccountParams as TransactionListByAccountParams,
+  };
+
+  export {
+    AuditEvents as AuditEvents,
+    type AuditEventListResponse as AuditEventListResponse,
+    type AuditEventListParams as AuditEventListParams,
   };
 
   export type Transaction = API.Transaction;
