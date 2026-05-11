@@ -47,3 +47,13 @@ Methods:
 - <code title="get /api/v1/transactions/{id}">client.transactions.<a href="./src/resources/transactions.ts">retrieve</a>(id) -> Transaction</code>
 - <code title="get /api/v1/transactions">client.transactions.<a href="./src/resources/transactions.ts">list</a>({ ...params }) -> TransactionListResponse</code>
 - <code title="get /api/v1/accounts/{account_id}/transactions">client.transactions.<a href="./src/resources/transactions.ts">listByAccount</a>(accountID, { ...params }) -> TransactionListByAccountResponse</code>
+
+# SDKSmokeTests
+
+Types:
+
+- <code><a href="./src/resources/sdk-smoke-tests.ts">SDKSmokeTestPingResponse</a></code>
+
+Methods:
+
+- <code title="get /api/v1/sdk-smoke-test">client.sdkSmokeTests.<a href="./src/resources/sdk-smoke-tests.ts">ping</a>() -> SDKSmokeTestPingResponse</code>
