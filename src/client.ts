@@ -33,6 +33,7 @@ import {
   AccountWithdrawResponse,
   Accounts,
 } from './resources/accounts';
+import { Audit, EventListParams, EventListResponse, Events } from './resources/audit';
 import {
   TransactionListByAccountParams,
   TransactionListByAccountResponse,
@@ -740,11 +741,17 @@ export class Rails {
   users: API.Users = new API.Users(this);
   accounts: API.Accounts = new API.Accounts(this);
   transactions: API.Transactions = new API.Transactions(this);
+  /**
+   * Audit
+   */
+  audit: API.Audit = new API.Audit(this);
 }
 
 Rails.Users = Users;
 Rails.Accounts = Accounts;
 Rails.Transactions = Transactions;
+Rails.Audit = Audit;
+Rails.Events = Events;
 
 export declare namespace Rails {
   export type RequestOptions = Opts.RequestOptions;
@@ -778,5 +785,12 @@ export declare namespace Rails {
     type TransactionRetrieveResponse as TransactionRetrieveResponse,
     type TransactionListByAccountResponse as TransactionListByAccountResponse,
     type TransactionListByAccountParams as TransactionListByAccountParams,
+  };
+
+  export {
+    Audit as Audit,
+    Events as Events,
+    type EventListResponse as EventListResponse,
+    type EventListParams as EventListParams,
   };
 }
