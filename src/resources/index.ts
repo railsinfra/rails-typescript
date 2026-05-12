@@ -23,4 +23,5 @@ export {
   type TransactionListByAccountResponse,
   type TransactionListByAccountParams,
 } from './transactions';
+export { Audit, Events, type EventListResponse, type EventListParams } from './audit';
 export { Users, type UserCreateResponse, type UserCreateParams } from './users';
