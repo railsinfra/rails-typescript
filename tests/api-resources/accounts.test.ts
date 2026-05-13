@@ -12,7 +12,9 @@ describe('resource accounts', () => {
   test.skip('create: only required params', async () => {
     const responsePromise = client.accounts.create({
       account_type: 'checking',
-      user_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+      email: 'ada@example.com',
+      first_name: 'Ada',
+      last_name: 'Lovelace',
     });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
@@ -27,10 +29,10 @@ describe('resource accounts', () => {
   test.skip('create: required and optional params', async () => {
     const response = await client.accounts.create({
       account_type: 'checking',
-      user_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+      email: 'ada@example.com',
+      first_name: 'Ada',
+      last_name: 'Lovelace',
       currency: 'currency',
-      environment: 'environment',
-      organization_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
     });
   });
 
