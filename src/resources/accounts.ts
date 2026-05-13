@@ -448,13 +448,13 @@ export namespace AccountWithdrawResponse {
 export interface AccountCreateParams {
   account_type: 'checking' | 'saving';
 
-  user_id: string;
+  email: string;
+
+  first_name: string;
+
+  last_name: string;
 
   currency?: string;
-
-  environment?: string | null;
-
-  organization_id?: string | null;
 }
 
 export interface AccountListParams {
