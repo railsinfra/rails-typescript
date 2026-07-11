@@ -55,7 +55,7 @@ import { isEmptyObj } from './internal/utils/values';
 
 const environments = {
   staging: 'https://rails-client-server-staging.up.railway.app',
-  production: 'https://rails-client-server-production.up.railway.app',
+  production: 'https://www.api.railsinfra.com',
 };
 type Environment = keyof typeof environments;
 
@@ -70,7 +70,7 @@ export interface ClientOptions {
    *
    * Each environment maps to a different base URL:
    * - `staging` corresponds to `https://rails-client-server-staging.up.railway.app`
-   * - `production` corresponds to `https://rails-client-server-production.up.railway.app`
+   * - `production` corresponds to `https://www.api.railsinfra.com`
    */
   environment?: Environment | undefined;
 
