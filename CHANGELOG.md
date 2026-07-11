@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.4.1 (2026-07-11)
+
+Full Changelog: [v0.4.0...v0.4.1](https://github.com/railsinfra/rails-typescript/compare/v0.4.0...v0.4.1)
+
+### Bug Fixes
+
+* **client:** update production base URL to www.api.railsinfra.com ([5e96e02](https://github.com/railsinfra/rails-typescript/commit/5e96e0283553a1d4be00cc7ba43aac535e2775c3))
+
 ## 0.4.0 (2026-05-11)
 
 Full Changelog: [v0.3.4...v0.4.0](https://github.com/railsinfra/rails-typescript/compare/v0.3.4...v0.4.0)
