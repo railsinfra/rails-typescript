@@ -54,8 +54,8 @@ import {
 import { isEmptyObj } from './internal/utils/values';
 
 const environments = {
-  staging: 'https://rails-client-server-staging.up.railway.app',
   production: 'https://www.api.railsinfra.com',
+  staging: 'https://rails-client-server-staging.up.railway.app',
 };
 type Environment = keyof typeof environments;
 
@@ -69,8 +69,8 @@ export interface ClientOptions {
    * Specifies the environment to use for the API.
    *
    * Each environment maps to a different base URL:
-   * - `staging` corresponds to `https://rails-client-server-staging.up.railway.app`
    * - `production` corresponds to `https://www.api.railsinfra.com`
+   * - `staging` corresponds to `https://rails-client-server-staging.up.railway.app`
    */
   environment?: Environment | undefined;
 
@@ -165,8 +165,8 @@ export class Rails {
    * API Client for interfacing with the Rails API.
    *
    * @param {string | undefined} [opts.apiKey=process.env['RAILS_API_KEY'] ?? undefined]
-   * @param {Environment} [opts.environment=staging] - Specifies the environment URL to use for the API.
-   * @param {string} [opts.baseURL=process.env['RAILS_BASE_URL'] ?? https://rails-client-server-staging.up.railway.app] - Override the default base URL for the API.
+   * @param {Environment} [opts.environment=production] - Specifies the environment URL to use for the API.
+   * @param {string} [opts.baseURL=process.env['RAILS_BASE_URL'] ?? https://www.api.railsinfra.com] - Override the default base URL for the API.
    * @param {number} [opts.timeout=1 minute] - The maximum amount of time (in milliseconds) the client will wait for a response before timing out.
    * @param {MergedRequestInit} [opts.fetchOptions] - Additional `RequestInit` options to be passed to `fetch` calls.
    * @param {Fetch} [opts.fetch] - Specify a custom `fetch` function implementation.
@@ -189,7 +189,7 @@ export class Rails {
       apiKey,
       ...opts,
       baseURL,
-      environment: opts.environment ?? 'staging',
+      environment: opts.environment ?? 'production',
     };
 
     if (baseURL && opts.environment) {
@@ -198,7 +198,7 @@ export class Rails {
       );
     }
 
-    this.baseURL = options.baseURL || environments[options.environment || 'staging'];
+    this.baseURL = options.baseURL || environments[options.environment || 'production'];
     this.timeout = options.timeout ?? Rails.DEFAULT_TIMEOUT /* 1 minute */;
     this.logger = options.logger ?? console;
     const defaultLogLevel = 'warn';
@@ -254,7 +254,7 @@ export class Rails {
    * Check whether the base URL is set to its default.
    */
   #baseURLOverridden(): boolean {
-    return this.baseURL !== environments[this._options.environment || 'staging'];
+    return this.baseURL !== environments[this._options.environment || 'production'];
   }
 
   protected defaultQuery(): Record<string, string | undefined> | undefined {

@@ -24,7 +24,7 @@ import Rails from 'railsinfra';
 
 const client = new Rails({
   apiKey: process.env['RAILS_API_KEY'], // This is the default and can be omitted
-  environment: 'production', // defaults to 'staging'
+  environment: 'staging', // defaults to 'production'
 });
 
 const user = await client.users.create({
@@ -48,7 +48,7 @@ import Rails from 'railsinfra';
 
 const client = new Rails({
   apiKey: process.env['RAILS_API_KEY'], // This is the default and can be omitted
-  environment: 'production', // defaults to 'staging'
+  environment: 'staging', // defaults to 'production'
 });
 
 const params: Rails.UserCreateParams = {
