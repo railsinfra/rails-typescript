@@ -2,6 +2,7 @@
 
 import { APIResource } from '../core/resource';
 import { APIPromise } from '../core/api-promise';
+import { buildHeaders } from '../internal/headers';
 import { RequestOptions } from '../internal/request-options';
 
 /**
@@ -12,10 +13,18 @@ export class AuditEvents extends APIResource {
    * List audit events
    */
   list(
-    query: AuditEventListParams | null | undefined = {},
+    params: AuditEventListParams | null | undefined = {},
     options?: RequestOptions,
   ): APIPromise<AuditEventListResponse> {
-    return this._client.get('/api/v1/audit/events', { query, ...options });
+    const { 'X-Environment': xEnvironment, ...query } = params ?? {};
+    return this._client.get('/api/v1/audit/events', {
+      query,
+      ...options,
+      headers: buildHeaders([
+        { ...(xEnvironment?.toString() != null ? { 'X-Environment': xEnvironment?.toString() } : undefined) },
+        options?.headers,
+      ]),
+    });
   }
 }
 
@@ -114,26 +123,57 @@ export namespace AuditEventListResponse {
 }
 
 export interface AuditEventListParams {
+  /**
+   * Query param
+   */
   action?: string;
 
   /**
-   * Environment to list audit events from. Defaults to sandbox when omitted.
+   * Query param: Environment to list audit events from. Defaults to sandbox when
+   * omitted.
    */
   environment?: 'sandbox' | 'production';
 
+  /**
+   * Query param
+   */
   from?: string;
 
+  /**
+   * Query param
+   */
   outcome?: 'success' | 'client_error' | 'server_error';
 
+  /**
+   * Query param
+   */
   page?: number;
 
+  /**
+   * Query param
+   */
   per_page?: number;
 
+  /**
+   * Query param
+   */
   target_id?: string;
 
+  /**
+   * Query param
+   */
   target_type?: string;
 
+  /**
+   * Query param
+   */
   to?: string;
+
+  /**
+   * Header param: Target environment for the request. Defaults to `sandbox` if not
+   * specified.
+   */
+  'X-Environment'?: 'sandbox' | 'production';
 }
 
 export declare namespace AuditEvents {

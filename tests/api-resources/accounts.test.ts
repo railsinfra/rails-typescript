@@ -32,6 +32,7 @@ describe('resource accounts', () => {
       user_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
       environment: 'environment',
       organization_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+      'X-Environment': 'sandbox',
     });
   });
 
@@ -48,6 +49,18 @@ describe('resource accounts', () => {
   });
 
   // Mock server tests are disabled
+  test.skip('retrieve: request options and params are passed correctly', async () => {
+    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
+    await expect(
+      client.accounts.retrieve(
+        '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+        { 'X-Environment': 'sandbox' },
+        { path: '/_stainless_unknown_path' },
+      ),
+    ).rejects.toThrow(Rails.NotFoundError);
+  });
+
+  // Mock server tests are disabled
   test.skip('list: only required params', async () => {
     const responsePromise = client.accounts.list({ user_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e' });
     const rawResponse = await responsePromise.asResponse();
@@ -61,7 +74,10 @@ describe('resource accounts', () => {
 
   // Mock server tests are disabled
   test.skip('list: required and optional params', async () => {
-    const response = await client.accounts.list({ user_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e' });
+    const response = await client.accounts.list({
+      user_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+      'X-Environment': 'sandbox',
+    });
   });
 
   // Mock server tests are disabled
@@ -74,6 +90,18 @@ describe('resource accounts', () => {
     const dataAndResponse = await responsePromise.withResponse();
     expect(dataAndResponse.data).toBe(response);
     expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  // Mock server tests are disabled
+  test.skip('close: request options and params are passed correctly', async () => {
+    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
+    await expect(
+      client.accounts.close(
+        '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+        { 'X-Environment': 'sandbox' },
+        { path: '/_stainless_unknown_path' },
+      ),
+    ).rejects.toThrow(Rails.NotFoundError);
   });
 
   // Mock server tests are disabled
@@ -95,6 +123,7 @@ describe('resource accounts', () => {
     const response = await client.accounts.deposit('182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e', {
       amount: 'amount',
       description: 'description',
+      'X-Environment': 'sandbox',
     });
   });
 
@@ -119,6 +148,7 @@ describe('resource accounts', () => {
       amount: 'amount',
       to_account_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
       description: 'description',
+      'X-Environment': 'sandbox',
     });
   });
 
@@ -153,6 +183,7 @@ describe('resource accounts', () => {
     const response = await client.accounts.withdraw('182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e', {
       amount: 'amount',
       description: 'description',
+      'X-Environment': 'sandbox',
     });
   });
 });

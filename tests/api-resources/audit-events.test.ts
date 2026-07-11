@@ -35,6 +35,7 @@ describe('resource auditEvents', () => {
           target_id: 'target_id',
           target_type: 'target_type',
           to: '2019-12-27T18:11:19.117Z',
+          'X-Environment': 'sandbox',
         },
         { path: '/_stainless_unknown_path' },
       ),

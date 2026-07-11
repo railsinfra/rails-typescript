@@ -21,6 +21,18 @@ describe('resource transactions', () => {
   });
 
   // Mock server tests are disabled
+  test.skip('retrieve: request options and params are passed correctly', async () => {
+    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
+    await expect(
+      client.transactions.retrieve(
+        '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+        { 'X-Environment': 'sandbox' },
+        { path: '/_stainless_unknown_path' },
+      ),
+    ).rejects.toThrow(Rails.NotFoundError);
+  });
+
+  // Mock server tests are disabled
   test.skip('list: only required params', async () => {
     const responsePromise = client.transactions.list({
       organization_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
@@ -40,6 +52,7 @@ describe('resource transactions', () => {
       organization_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
       page: 1,
       per_page: 1,
+      'X-Environment': 'sandbox',
     });
   });
 
@@ -61,7 +74,7 @@ describe('resource transactions', () => {
     await expect(
       client.transactions.listByAccount(
         '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
-        { limit: 0 },
+        { limit: 0, 'X-Environment': 'sandbox' },
         { path: '/_stainless_unknown_path' },
       ),
     ).rejects.toThrow(Rails.NotFoundError);

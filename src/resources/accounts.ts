@@ -3,6 +3,7 @@
 import { APIResource } from '../core/resource';
 import * as Shared from './shared';
 import { APIPromise } from '../core/api-promise';
+import { buildHeaders } from '../internal/headers';
 import { RequestOptions } from '../internal/request-options';
 import { path } from '../internal/utils/path';
 
@@ -13,29 +14,67 @@ export class Accounts extends APIResource {
   /**
    * Create account
    */
-  create(body: AccountCreateParams, options?: RequestOptions): APIPromise<Account> {
-    return this._client.post('/api/v1/accounts', { body, ...options });
+  create(params: AccountCreateParams, options?: RequestOptions): APIPromise<Account> {
+    const { 'X-Environment': xEnvironment, ...body } = params;
+    return this._client.post('/api/v1/accounts', {
+      body,
+      ...options,
+      headers: buildHeaders([
+        { ...(xEnvironment?.toString() != null ? { 'X-Environment': xEnvironment?.toString() } : undefined) },
+        options?.headers,
+      ]),
+    });
   }
 
   /**
    * Retrieve account
    */
-  retrieve(id: string, options?: RequestOptions): APIPromise<Account> {
-    return this._client.get(path`/api/v1/accounts/${id}`, options);
+  retrieve(
+    id: string,
+    params: AccountRetrieveParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<Account> {
+    const { 'X-Environment': xEnvironment } = params ?? {};
+    return this._client.get(path`/api/v1/accounts/${id}`, {
+      ...options,
+      headers: buildHeaders([
+        { ...(xEnvironment?.toString() != null ? { 'X-Environment': xEnvironment?.toString() } : undefined) },
+        options?.headers,
+      ]),
+    });
   }
 
   /**
    * List accounts
    */
-  list(query: AccountListParams, options?: RequestOptions): APIPromise<AccountListResponse> {
-    return this._client.get('/api/v1/accounts', { query, ...options });
+  list(params: AccountListParams, options?: RequestOptions): APIPromise<AccountListResponse> {
+    const { 'X-Environment': xEnvironment, ...query } = params;
+    return this._client.get('/api/v1/accounts', {
+      query,
+      ...options,
+      headers: buildHeaders([
+        { ...(xEnvironment?.toString() != null ? { 'X-Environment': xEnvironment?.toString() } : undefined) },
+        options?.headers,
+      ]),
+    });
   }
 
   /**
    * Close account
    */
-  close(id: string, options?: RequestOptions): APIPromise<Account> {
-    return this._client.delete(path`/api/v1/accounts/${id}`, options);
+  close(
+    id: string,
+    params: AccountCloseParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<Account> {
+    const { 'X-Environment': xEnvironment } = params ?? {};
+    return this._client.delete(path`/api/v1/accounts/${id}`, {
+      ...options,
+      headers: buildHeaders([
+        { ...(xEnvironment?.toString() != null ? { 'X-Environment': xEnvironment?.toString() } : undefined) },
+        options?.headers,
+      ]),
+    });
   }
 
   /**
@@ -43,10 +82,18 @@ export class Accounts extends APIResource {
    */
   deposit(
     id: string,
-    body: AccountDepositParams,
+    params: AccountDepositParams,
     options?: RequestOptions,
   ): APIPromise<AccountDepositResponse> {
-    return this._client.post(path`/api/v1/accounts/${id}/deposit`, { body, ...options });
+    const { 'X-Environment': xEnvironment, ...body } = params;
+    return this._client.post(path`/api/v1/accounts/${id}/deposit`, {
+      body,
+      ...options,
+      headers: buildHeaders([
+        { ...(xEnvironment?.toString() != null ? { 'X-Environment': xEnvironment?.toString() } : undefined) },
+        options?.headers,
+      ]),
+    });
   }
 
   /**
@@ -54,17 +101,33 @@ export class Accounts extends APIResource {
    */
   transfer(
     id: string,
-    body: AccountTransferParams,
+    params: AccountTransferParams,
     options?: RequestOptions,
   ): APIPromise<AccountTransferResponse> {
-    return this._client.post(path`/api/v1/accounts/${id}/transfer`, { body, ...options });
+    const { 'X-Environment': xEnvironment, ...body } = params;
+    return this._client.post(path`/api/v1/accounts/${id}/transfer`, {
+      body,
+      ...options,
+      headers: buildHeaders([
+        { ...(xEnvironment?.toString() != null ? { 'X-Environment': xEnvironment?.toString() } : undefined) },
+        options?.headers,
+      ]),
+    });
   }
 
   /**
    * Update account status
    */
-  updateStatus(id: string, body: AccountUpdateStatusParams, options?: RequestOptions): APIPromise<Account> {
-    return this._client.patch(path`/api/v1/accounts/${id}`, { body, ...options });
+  updateStatus(id: string, params: AccountUpdateStatusParams, options?: RequestOptions): APIPromise<Account> {
+    const { 'X-Environment': xEnvironment, ...body } = params;
+    return this._client.patch(path`/api/v1/accounts/${id}`, {
+      body,
+      ...options,
+      headers: buildHeaders([
+        { ...(xEnvironment?.toString() != null ? { 'X-Environment': xEnvironment?.toString() } : undefined) },
+        options?.headers,
+      ]),
+    });
   }
 
   /**
@@ -72,10 +135,18 @@ export class Accounts extends APIResource {
    */
   withdraw(
     id: string,
-    body: AccountWithdrawParams,
+    params: AccountWithdrawParams,
     options?: RequestOptions,
   ): APIPromise<AccountWithdrawResponse> {
-    return this._client.post(path`/api/v1/accounts/${id}/withdraw`, { body, ...options });
+    const { 'X-Environment': xEnvironment, ...body } = params;
+    return this._client.post(path`/api/v1/accounts/${id}/withdraw`, {
+      body,
+      ...options,
+      headers: buildHeaders([
+        { ...(xEnvironment?.toString() != null ? { 'X-Environment': xEnvironment?.toString() } : undefined) },
+        options?.headers,
+      ]),
+    });
   }
 }
 
@@ -130,46 +201,135 @@ export interface AccountWithdrawResponse {
 }
 
 export interface AccountCreateParams {
+  /**
+   * Body param
+   */
   account_type: 'checking' | 'saving';
 
   /**
-   * Three-letter uppercase ISO currency code, for example USD or ZAR.
+   * Body param: Three-letter uppercase ISO currency code, for example USD or ZAR.
    */
   currency: string;
 
+  /**
+   * Body param
+   */
   user_id: string;
 
+  /**
+   * Body param
+   */
   environment?: string | null;
 
+  /**
+   * Body param
+   */
   organization_id?: string | null;
+
+  /**
+   * Header param: Target environment for the request. Defaults to `sandbox` if not
+   * specified.
+   */
+  'X-Environment'?: 'sandbox' | 'production';
+}
+
+export interface AccountRetrieveParams {
+  /**
+   * Target environment for the request. Defaults to `sandbox` if not specified.
+   */
+  'X-Environment'?: 'sandbox' | 'production';
 }
 
 export interface AccountListParams {
+  /**
+   * Query param
+   */
   user_id: string;
+
+  /**
+   * Header param: Target environment for the request. Defaults to `sandbox` if not
+   * specified.
+   */
+  'X-Environment'?: 'sandbox' | 'production';
+}
+
+export interface AccountCloseParams {
+  /**
+   * Target environment for the request. Defaults to `sandbox` if not specified.
+   */
+  'X-Environment'?: 'sandbox' | 'production';
 }
 
 export interface AccountDepositParams {
+  /**
+   * Body param
+   */
   amount: string;
 
+  /**
+   * Body param
+   */
   description?: string | null;
+
+  /**
+   * Header param: Target environment for the request. Defaults to `sandbox` if not
+   * specified.
+   */
+  'X-Environment'?: 'sandbox' | 'production';
 }
 
 export interface AccountTransferParams {
+  /**
+   * Body param
+   */
   amount: string;
 
+  /**
+   * Body param
+   */
   to_account_id: string;
 
+  /**
+   * Body param
+   */
   description?: string | null;
+
+  /**
+   * Header param: Target environment for the request. Defaults to `sandbox` if not
+   * specified.
+   */
+  'X-Environment'?: 'sandbox' | 'production';
 }
 
 export interface AccountUpdateStatusParams {
+  /**
+   * Body param
+   */
   status?: 'active' | 'suspended' | 'closed';
+
+  /**
+   * Header param: Target environment for the request. Defaults to `sandbox` if not
+   * specified.
+   */
+  'X-Environment'?: 'sandbox' | 'production';
 }
 
 export interface AccountWithdrawParams {
+  /**
+   * Body param
+   */
   amount: string;
 
+  /**
+   * Body param
+   */
   description?: string | null;
+
+  /**
+   * Header param: Target environment for the request. Defaults to `sandbox` if not
+   * specified.
+   */
+  'X-Environment'?: 'sandbox' | 'production';
 }
 
 export declare namespace Accounts {
@@ -180,7 +340,9 @@ export declare namespace Accounts {
     type AccountTransferResponse as AccountTransferResponse,
     type AccountWithdrawResponse as AccountWithdrawResponse,
     type AccountCreateParams as AccountCreateParams,
+    type AccountRetrieveParams as AccountRetrieveParams,
     type AccountListParams as AccountListParams,
+    type AccountCloseParams as AccountCloseParams,
     type AccountDepositParams as AccountDepositParams,
     type AccountTransferParams as AccountTransferParams,
     type AccountUpdateStatusParams as AccountUpdateStatusParams,

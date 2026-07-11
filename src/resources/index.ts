@@ -9,7 +9,9 @@ export {
   type AccountTransferResponse,
   type AccountWithdrawResponse,
   type AccountCreateParams,
+  type AccountRetrieveParams,
   type AccountListParams,
+  type AccountCloseParams,
   type AccountDepositParams,
   type AccountTransferParams,
   type AccountUpdateStatusParams,
@@ -20,6 +22,7 @@ export {
   Transactions,
   type TransactionListResponse,
   type TransactionListByAccountResponse,
+  type TransactionRetrieveParams,
   type TransactionListParams,
   type TransactionListByAccountParams,
 } from './transactions';

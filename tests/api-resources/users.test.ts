@@ -15,7 +15,6 @@ describe('resource users', () => {
       first_name: 'first_name',
       last_name: 'last_name',
       password: 'password',
-      'X-Environment': 'sandbox',
     });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);

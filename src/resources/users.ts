@@ -17,7 +17,10 @@ export class Users extends APIResource {
     return this._client.post('/api/v1/users', {
       body,
       ...options,
-      headers: buildHeaders([{ 'X-Environment': xEnvironment.toString() }, options?.headers]),
+      headers: buildHeaders([
+        { ...(xEnvironment?.toString() != null ? { 'X-Environment': xEnvironment?.toString() } : undefined) },
+        options?.headers,
+      ]),
     });
   }
 }
@@ -50,9 +53,10 @@ export interface UserCreateParams {
   password: string;
 
   /**
-   * Header param
+   * Header param: Target environment for the request. Defaults to `sandbox` if not
+   * specified.
    */
-  'X-Environment': 'sandbox' | 'production';
+  'X-Environment'?: 'sandbox' | 'production';
 }
 
 export declare namespace Users {

@@ -19,11 +19,13 @@ import * as API from './resources/index';
 import { APIPromise } from './core/api-promise';
 import {
   Account,
+  AccountCloseParams,
   AccountCreateParams,
   AccountDepositParams,
   AccountDepositResponse,
   AccountListParams,
   AccountListResponse,
+  AccountRetrieveParams,
   AccountTransferParams,
   AccountTransferResponse,
   AccountUpdateStatusParams,
@@ -37,6 +39,7 @@ import {
   TransactionListByAccountResponse,
   TransactionListParams,
   TransactionListResponse,
+  TransactionRetrieveParams,
   Transactions,
 } from './resources/transactions';
 import { UserCreateParams, UserCreateResponse, Users } from './resources/users';
@@ -824,7 +827,9 @@ export declare namespace Rails {
     type AccountTransferResponse as AccountTransferResponse,
     type AccountWithdrawResponse as AccountWithdrawResponse,
     type AccountCreateParams as AccountCreateParams,
+    type AccountRetrieveParams as AccountRetrieveParams,
     type AccountListParams as AccountListParams,
+    type AccountCloseParams as AccountCloseParams,
     type AccountDepositParams as AccountDepositParams,
     type AccountTransferParams as AccountTransferParams,
     type AccountUpdateStatusParams as AccountUpdateStatusParams,
@@ -835,6 +840,7 @@ export declare namespace Rails {
     Transactions as Transactions,
     type TransactionListResponse as TransactionListResponse,
     type TransactionListByAccountResponse as TransactionListByAccountResponse,
+    type TransactionRetrieveParams as TransactionRetrieveParams,
     type TransactionListParams as TransactionListParams,
     type TransactionListByAccountParams as TransactionListByAccountParams,
   };
